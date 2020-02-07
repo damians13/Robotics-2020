@@ -13,23 +13,36 @@ public class LimelightCorners {
 		updateCorners(xs, ys);
 	}
 
+	public double getTopLeftX() {
+		return this.topLeft.x;
+	}
+	public double getTopLeftY() {
+		return this.topLeft.y;
+	}
+	public double getTopRightX() {
+		return this.topRight.x;
+	}
+	public double getTopRightY() {
+		return this.topRight.y;
+	}
+
 	public void updateCorners(double[] xs, double[] ys) {
 		cornerCount = xs.length;
 		if (cornerCount == 4) { // 4 corners
-			topLeft = new Corner(xs[0], ys[0]);
-			bottomLeft = new Corner(xs[3], ys[3]);
-			bottomRight = new Corner(xs[2], ys[2]);
-			topRight = new Corner(xs[1], ys[1]);
+			this.topLeft = new Corner(xs[0], ys[0]);
+			this.bottomLeft = new Corner(xs[3], ys[3]);
+			this.bottomRight = new Corner(xs[2], ys[2]);
+			this.topRight = new Corner(xs[1], ys[1]);
 		} else if (cornerCount == 3) { // 3 corners
-			topLeft = new Corner(xs[2], ys[2]);
-			bottomLeft = null; // This is normally missing if there is 3 reported corners
-			bottomRight = new Corner(xs[1], ys[1]);
-			topRight = new Corner(xs[0], ys[0]);
+			this.topLeft = new Corner(xs[2], ys[2]);
+			this.bottomLeft = null; // This is normally missing if there is 3 reported corners
+			this.bottomRight = new Corner(xs[1], ys[1]);
+			this.topRight = new Corner(xs[0], ys[0]);
 		} else { // Unexpected target or no target
-			topLeft = null;
-			bottomLeft = null;
-			bottomRight = null;
-			topRight = null;
+			this.topLeft = null;
+			this.bottomLeft = null;
+			this.bottomRight = null;
+			this.topRight = null;
 		}
 	}
 
