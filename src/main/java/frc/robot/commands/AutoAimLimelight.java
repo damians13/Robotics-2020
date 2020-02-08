@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.utilities.LimelightCorners;
+import frc.robot.utilities.MiscUtils;
 import frc.robot.utilities.PID;
 
 public class AutoAimLimelight extends CommandBase {
@@ -12,11 +12,9 @@ public class AutoAimLimelight extends CommandBase {
 	 * x is side to side
 	 */
 
-	private LimelightCorners corners;
-
-	private final double xTarget = 0.0; // In degrees
-	private final double yTarget = 0.0; // In pixels
-	private final double distTarget = 100; // In centimeters
+	private final double xTarget = 0.0; // In pixels
+	private final double distTarget = 100.0; // In centimeters
+	private final double rotTarget = 0.0; // In degrees
 
 	private final double xPIDkP = 0.0;
 	private final double xPIDkI = 0.0;
@@ -50,22 +48,19 @@ public class AutoAimLimelight extends CommandBase {
 			this.end(false);
 		}
 
-		corners = new LimelightCorners(Robot.Container.sensors.getLimelightCornersX(), Robot.Container.sensors.getLimelightCornersY());
-
 		xPID = new PID(xPIDkP, xPIDkI, xPIDkD, xTarget);
-		yPID = new PID(yPIDkP, yPIDkI, yPIDkD, yTarget);
-		rotPID = new PID(rotPIDkP, rotPIDkI, rotPIDkD, distTarget);
+		yPID = new PID(yPIDkP, yPIDkI, yPIDkD, distTarget);
+		rotPID = new PID(rotPIDkP, rotPIDkI, rotPIDkD, rotTarget);
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
 		if (Robot.Container.sensors.limelightHasTarget()) {
-			corners.updateCorners(Robot.Container.sensors.getLimelightCornersX(), Robot.Container.sensors.getLimelightCornersY());
 
 			driveInputX = xPID.getOutput(Robot.Container.sensors.getLimelightTX());
 			driveInputY = yPID.getOutput(Robot.Container.sensors.getLidarDistance()); // get distance to target
-			driveInputAngle = rotPID.getOutput(corners.computeAngleRatio());
+			driveInputAngle = rotPID.getOutput(MiscUtils.limelightPointsLeftOverRight(Robot.Container.sensors.getLimelightCornersX(), Robot.Container.sensors.getLimelightCornersY()));
 
 			Robot.Container.driveTrain.cappedMecanumDrive(driveInputX, driveInputY, driveInputAngle, 0.6);
 		} else {

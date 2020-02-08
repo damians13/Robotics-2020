@@ -67,4 +67,44 @@ public class MiscUtils {
     public static double encoderToSpeed(double encoderResolution, double encoderReading) {
         return encoderReading / encoderResolution * 6 * Constants.UnitConversions.IN_TO_M / 50;
     }
+
+    public static double limelightPointsToDistance(double[] xs, double[] ys) {
+        int targetCount = xs.length;
+
+        if (targetCount < 3) {
+            return 0.0;
+        } else if (targetCount == 3) {
+            double topLeftX = xs[2];
+            double topRightX = xs[0];
+
+            return 2601.3 * Math.pow(Math.abs(topLeftX - topRightX), -1.284);
+        } else if (targetCount == 4) {
+            double topLeftX = xs[0];
+            double topRightX = xs[1];
+            
+            return 2601.3 * Math.pow(Math.abs(topLeftX - topRightX), -1.284);
+        } else {
+            return 0.0;
+        }
+    }
+
+    public static double limelightPointsLeftOverRight(double[] xs, double[] ys) {
+        int targetCount = xs.length;
+
+        if (targetCount < 3) {
+            return 0.0;
+        } else if (targetCount == 3) {
+            double topLeftY = ys[2];
+            double topRightY = ys[0];
+
+            return topLeftY / topRightY;
+        } else if (targetCount == 4) {
+            double topLeftY = ys[0];
+            double topRightY = ys[1];
+            
+            return topLeftY / topRightY;
+        } else {
+            return 0.0;
+        }
+    }
 }

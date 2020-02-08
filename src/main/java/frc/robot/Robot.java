@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.utilities.LimelightCorners;
+import frc.robot.utilities.MiscUtils;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -21,8 +21,6 @@ import frc.robot.utilities.LimelightCorners;
  */
 public class Robot extends TimedRobot {
 	private Command m_autonomousCommand;
-
-	private LimelightCorners corners;
 
 	public static RobotContainer Container;
 
@@ -34,8 +32,6 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		// Instantiate our RobotContainer.	This will perform all our button bindings, and put our
 		// autonomous chooser on the dashboard.
-		corners = new LimelightCorners(new double[] {}, new double[] {});
-
 		Container = new RobotContainer();
 	}
 
@@ -53,8 +49,6 @@ public class Robot extends TimedRobot {
 		// and running subsystem periodic() methods.	This must be called from the robot's periodic
 		// block in order for anything in the Command-based framework to work.
 		CommandScheduler.getInstance().run();
-
-		corners.updateCorners(Container.sensors.getLimelightCornersX(), Container.sensors.getLimelightCornersY());
 	}
 
 	/**
@@ -128,10 +122,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("ty", Container.sensors.getLimelightTY());
 		SmartDashboard.putBoolean("Limelight has target", Container.sensors.limelightHasTarget());
 		
-		SmartDashboard.putNumber("topLeftX", corners.getTopLeftX());
-		SmartDashboard.putNumber("topLeftY", corners.getTopLeftY());
-		SmartDashboard.putNumber("topRightX", corners.getTopRightX());
-		SmartDashboard.putNumber("topRightY", corners.getTopRightY());
+		SmartDashboard.putNumber("Limelight Detected Area", MiscUtils.limelightPointsToDistance(Container.sensors.getLimelightCornersX(), Container.sensors.getLimelightCornersY()));
 
 		//SmartDashboard.putNumber("RED", Container.sensors.getColourSensorRed());
 		//SmartDashboard.putNumber("GREEN", Container.sensors.getColourSensorGreen());
