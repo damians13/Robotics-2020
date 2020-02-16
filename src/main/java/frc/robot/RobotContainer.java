@@ -14,6 +14,9 @@ import frc.robot.commands._MecanumDrive;
 import frc.robot.subsystems.DriveTrainMecanum;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Sensors;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Climb;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -24,14 +27,18 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 @SuppressWarnings("unused")
 public class RobotContainer {
+
 	public final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 	public final DriveTrainMecanum driveTrain;
 	public final Sensors sensors;
+	public final Intake intake;
+	public final Shooter shooter;
+	public final Climb climb;
 
 	private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 	private final _MecanumDrive mecanumDrive;
 	
-	private XboxController driverController;
+	public XboxController driverController;
 
 	public RobotContainer() {
 		// Configure controller(s)
@@ -41,6 +48,9 @@ public class RobotContainer {
 		// Initialize subsystems
 		driveTrain = new DriveTrainMecanum(this);
 		sensors = new Sensors(this);
+		intake = new Intake();
+		shooter = new Shooter();
+		climb = new Climb();
 
 		// Initialize commands
 		mecanumDrive = new _MecanumDrive(driveTrain);

@@ -29,6 +29,7 @@ public final class Constants {
         public static final double GYRO_DEADBAND = 0.005;
         public static final double JOY_DEADBAND = 0.1;
         public static final double GYRO_TOGGLE = 0.01;
+        public static final double INTAKE_SPEED = 1;
 
         // Locations of mecanum wheels in relation to the center of the robot
         public static final Translation2d frontLeftLocation = new Translation2d(0, 0);
