@@ -29,7 +29,7 @@ public class Indexing extends SubsystemBase {
     @Override
     public void periodic() {
         if (spinning) {
-            // Not sure if I have to use the miscutils function with the encoders, test this
+            // Not sure if I have to use the miscutils function with the encodersit, test this
             leftMotor.set(MiscUtils.encoderToSpeed(leftEncoder.getCountsPerRevolution(), shooterPID.getOutput(leftEncoder.getVelocity())));
             rightMotor.set(-MiscUtils.encoderToSpeed(rightEncoder.getCountsPerRevolution(), shooterPID.getOutput(rightEncoder.getVelocity())));
         } else {
