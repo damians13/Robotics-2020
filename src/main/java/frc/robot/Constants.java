@@ -20,6 +20,10 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 public final class Constants {
     // For each section, create a new public class and add constant values inside that class.
 
+    public static enum SolenoidStates {
+        UP, DOWN, OFF;
+    }
+
     public static class ControlConstants {
         // Control variables
         public static final double MAX_ROBOT_SPEED = 0.7;

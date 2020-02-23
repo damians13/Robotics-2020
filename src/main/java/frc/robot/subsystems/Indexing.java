@@ -3,12 +3,16 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utilities.PID;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.sensors.CANCoder;
 
 public class Indexing extends SubsystemBase {
 
     private TalonSRX leftMotor;
     private TalonSRX rightMotor;
+    private CANCoder leftEncoder;
+    private CANCoder rightEncoder;
     // need encoders too
 
     private boolean spinning;
@@ -20,8 +24,10 @@ public class Indexing extends SubsystemBase {
     private final double target = 400; // RPM
 
     public Indexing() {
-        leftMotor = new TalonSRX(10);
-        leftMotor = new TalonSRX(11);
+        leftMotor = new TalonSRX(8);
+        rightMotor = new TalonSRX(9);
+        leftEncoder = new CANCoder(8);
+        rightEncoder = new CANCoder(9);
 
         indexingPID = new PID(kP, kI, kD, target);
     }
@@ -30,11 +36,11 @@ public class Indexing extends SubsystemBase {
     public void periodic() {
         if (spinning) {
             // Not sure if I have to use the miscutils function with the encodersit, test this
-            leftMotor.set(MiscUtils.encoderToSpeed(leftEncoder.getCountsPerRevolution(), shooterPID.getOutput(leftEncoder.getVelocity())));
-            rightMotor.set(-MiscUtils.encoderToSpeed(rightEncoder.getCountsPerRevolution(), shooterPID.getOutput(rightEncoder.getVelocity())));
+            leftMotor.set(ControlMode.PercentOutput, indexingPID.getOutput(leftEncoder.getVelocity()));
+            rightMotor.set(ControlMode.PercentOutput, indexingPID.getOutput(rightEncoder.getVelocity()));
         } else {
-            leftMotor.set(0);
-            rightMotor.set(0);
+            leftMotor.set(ControlMode.PercentOutput, 0);
+            rightMotor.set(ControlMode.PercentOutput, 0);
         }
     }
 

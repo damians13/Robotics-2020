@@ -1,21 +1,19 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.utilities.MiscUtils;
 import frc.robot.utilities.PID;
 
 public class Climb extends SubsystemBase {
-
-    public enum ExtenderArmStates {
-        UP, DOWN, OFF;
-    }
 
     private final double kP = 0;
     private final double kI = 0;
@@ -23,7 +21,7 @@ public class Climb extends SubsystemBase {
 
     private PID holdExtenderArm;
 
-    private VictorSP smallWinch;
+    private VictorSPX smallWinch;
     private CANSparkMax bigWinch;
     private CANEncoder bigWinchEncoder;
     private DoubleSolenoid solenoid;
@@ -31,11 +29,11 @@ public class Climb extends SubsystemBase {
     public Climb() {
         holdExtenderArm = new PID(kP, kI, kD, 0);
 
-        smallWinch = new VictorSP(7000); // lol
+        smallWinch = new VictorSPX(11); // lol
         bigWinch = new CANSparkMax(7, MotorType.kBrushless);
         bigWinchEncoder = new CANEncoder(bigWinch);
-        //               forwardChannel, reverseChannel
-        solenoid = new DoubleSolenoid(0, 0);
+        //               PCM CAN ID, forwardChannel, reverseChannel
+        solenoid = new DoubleSolenoid(13, 0, 0);
     }
 
     @Override
@@ -48,14 +46,14 @@ public class Climb extends SubsystemBase {
     }
 
     public void setSmallWinchSpeed(double speed) {
-        smallWinch.set(speed);
+        smallWinch.set(ControlMode.PercentOutput, speed);
     }
 
     public void setSmallWinchHold() {
-        smallWinch.set(holdExtenderArm.getOutput(1));
+        smallWinch.set(ControlMode.PercentOutput, holdExtenderArm.getOutput(1));
     }
 
-    public void setExtenderArmState(ExtenderArmStates state) {
+    public void setExtenderArmState(Constants.SolenoidStates state) {
         switch (state) {
             case UP:
                 solenoid.set(Value.kForward);

@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -23,6 +24,7 @@ public class Robot extends TimedRobot {
 	private Command m_autonomousCommand;
 
 	public static RobotContainer Container;
+	private static Compressor compressor;
 
 	/**
 	 * This function is run when the robot is first started up and should be used for any
@@ -33,6 +35,8 @@ public class Robot extends TimedRobot {
 		// Instantiate our RobotContainer.	This will perform all our button bindings, and put our
 		// autonomous chooser on the dashboard.
 		Container = new RobotContainer();
+		compressor = new Compressor();
+		compressor.setClosedLoopControl(true);
 	}
 
 	/**
@@ -49,6 +53,10 @@ public class Robot extends TimedRobot {
 		// and running subsystem periodic() methods.	This must be called from the robot's periodic
 		// block in order for anything in the Command-based framework to work.
 		CommandScheduler.getInstance().run();
+
+		if (!compressor.enabled()) {
+			compressor.start();
+		}
 	}
 
 	/**

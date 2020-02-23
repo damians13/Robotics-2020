@@ -33,8 +33,11 @@ public class LiDAR {
 		writeRegister(0x11, 0x00);
 	}
 
-	public int getDistance() {
-		return readShort(0x8f);
+	public short getDistance() {
+		startMeasuring();
+		short dist = readShort(0x8f);
+		stopMeasuring();
+		return dist;
 	}
 
 	private int writeRegister(int address, int value) {

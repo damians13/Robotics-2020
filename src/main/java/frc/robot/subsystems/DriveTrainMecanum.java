@@ -43,10 +43,10 @@ public class DriveTrainMecanum extends SubsystemBase {
     public DriveTrainMecanum(RobotContainer container) {
         this.container = container;
 
-        frontLeft = new CANSparkMax(1, MotorType.kBrushless);
+        frontLeft = new CANSparkMax(3, MotorType.kBrushless);
         frontRight = new CANSparkMax(2, MotorType.kBrushless);
         backLeft = new CANSparkMax(4, MotorType.kBrushless);
-        backRight = new CANSparkMax(3, MotorType.kBrushless);
+        backRight = new CANSparkMax(1, MotorType.kBrushless);
 
         frontRight.setInverted(true);
     }
