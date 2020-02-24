@@ -11,4 +11,4 @@ Back 5 ft
 AutoAimLimelight
 Spin up shooter
 Run indexing
-Stop spinning shooter
+Stop spinning shooter and indexing
