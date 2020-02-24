@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.utilities.MiscUtils;
 import frc.robot.utilities.PID;
@@ -13,8 +14,8 @@ public class AutoAimLimelight extends CommandBase {
 	 */
 
 	private final double xTarget = 0.0; // In pixels
-	private final double distTarget = 100.0; // In centimeters
-	private final double rotTarget = 0.0; // In degrees
+	private final double distTarget = 212.5 * Constants.UnitConversions.IN_TO_CM; // In centimeters
+	private final double rotTarget = 0.0; // As a ratio of left point over right point
 
 	private final double xPIDkP = 0.0;
 	private final double xPIDkI = 0.0;
@@ -60,6 +61,7 @@ public class AutoAimLimelight extends CommandBase {
 
 			driveInputX = xPID.getOutput(Robot.Container.sensors.getLimelightTX());
 			driveInputY = yPID.getOutput(Robot.Container.sensors.getLidarDistance()); // get distance to target
+			// Limelight points left over right will give a ratio corresponding to the current rotation of the bot relative to the target
 			driveInputAngle = rotPID.getOutput(MiscUtils.limelightPointsLeftOverRight(Robot.Container.sensors.getLimelightCornersX(), Robot.Container.sensors.getLimelightCornersY()));
 
 			Robot.Container.driveTrain.cappedMecanumDrive(driveInputX, driveInputY, driveInputAngle, 0.6);
