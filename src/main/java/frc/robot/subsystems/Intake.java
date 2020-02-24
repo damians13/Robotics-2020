@@ -18,7 +18,7 @@ public class Intake extends SubsystemBase {
     public Intake() {
         intakeMotor = new VictorSPX(10);
         //                                  moduleNumber, forwardChannel, reverseChannel
-        solenoid = new DoubleSolenoid(13, 0, 0);
+        solenoid = new DoubleSolenoid(13, 1, 2);
         toggle = false;
     }
 

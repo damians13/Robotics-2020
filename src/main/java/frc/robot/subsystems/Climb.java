@@ -33,7 +33,7 @@ public class Climb extends SubsystemBase {
         bigWinch = new CANSparkMax(7, MotorType.kBrushless);
         bigWinchEncoder = new CANEncoder(bigWinch);
         //               PCM CAN ID, forwardChannel, reverseChannel
-        solenoid = new DoubleSolenoid(13, 0, 0);
+        solenoid = new DoubleSolenoid(13, 0, 3);
     }
 
     @Override
