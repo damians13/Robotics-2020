@@ -9,10 +9,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.AutoPlan1;
 import frc.robot.commands._MecanumDrive;
 import frc.robot.subsystems.DriveTrainMecanum;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Indexing;
 import frc.robot.subsystems.Sensors;
 import frc.robot.subsystems.Intake;
@@ -29,7 +28,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 @SuppressWarnings("unused")
 public class RobotContainer {
 
-	public final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 	public final DriveTrainMecanum driveTrain;
 	public final Sensors sensors;
 	public final Intake intake;
@@ -37,7 +35,6 @@ public class RobotContainer {
 	public final Climb climb;
 	public final Indexing indexing;
 
-	private final ExampleCommand autoCommand = new ExampleCommand(m_exampleSubsystem);
 	private final _MecanumDrive mecanumDrive;
 	
 	public XboxController driverController;
@@ -80,6 +77,6 @@ public class RobotContainer {
 	 * @return the command to run in autonomous
 	 */
 	public Command getAutonomousCommand() {
-		return autoCommand;
+		return new AutoPlan1();
 	}
 }
