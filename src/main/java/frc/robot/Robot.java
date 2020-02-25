@@ -37,6 +37,8 @@ public class Robot extends TimedRobot {
 		Container = new RobotContainer();
 		compressor = new Compressor(13);
 		compressor.setClosedLoopControl(true);
+
+		compressor.start();
 	}
 
 	/**
@@ -115,6 +117,24 @@ public class Robot extends TimedRobot {
 				System.out.println("Shooter stopped.");
 			}
 		}
+		
+		if (Container.driverController.getBButtonPressed()) {
+			if (Container.intake.start()) {
+				System.out.println("Intake started.");
+			} else if (Container.intake.stop()) {
+				System.out.println("Intake stopped.");
+			}
+		}
+		
+		if (Container.driverController.getXButtonPressed()) {
+			if (Container.indexing.start()) {
+				System.out.println("Indexing started.");
+			} else if (Container.indexing.stop()) {
+				System.out.println("Indexing stopped.");
+			}
+		}
+
+		compressor.start();
 	}
 
 	@Override

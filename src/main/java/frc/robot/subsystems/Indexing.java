@@ -18,10 +18,10 @@ public class Indexing extends SubsystemBase {
     private boolean spinning;
     private PID indexingPID;
 
-    private final double kP = 0;
-    private final double kI = 0;
-    private final double kD = 0;
-    private final double target = 400; // RPM
+    private final double kP = 1;
+    private final double kI = 1;
+    private final double kD = 1;
+    private final double target = 100; // RPM
 
     public Indexing() {
         leftMotor = new TalonSRX(8);
@@ -37,7 +37,7 @@ public class Indexing extends SubsystemBase {
         if (spinning) {
             // Not sure if I have to use the miscutils function with the encodersit, test this
             leftMotor.set(ControlMode.PercentOutput, indexingPID.getOutput(leftEncoder.getVelocity()));
-            rightMotor.set(ControlMode.PercentOutput, indexingPID.getOutput(rightEncoder.getVelocity()));
+            rightMotor.set(ControlMode.PercentOutput, -indexingPID.getOutput(rightEncoder.getVelocity()));
         } else {
             leftMotor.set(ControlMode.PercentOutput, 0);
             rightMotor.set(ControlMode.PercentOutput, 0);

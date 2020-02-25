@@ -10,7 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AutoPlan1;
-import frc.robot.commands._MecanumDrive;
 import frc.robot.subsystems.DriveTrainMecanum;
 import frc.robot.subsystems.Indexing;
 import frc.robot.subsystems.Sensors;
@@ -34,8 +33,6 @@ public class RobotContainer {
 	public final Shooter shooter;
 	public final Climb climb;
 	public final Indexing indexing;
-
-	private final _MecanumDrive mecanumDrive;
 	
 	public XboxController driverController;
 
@@ -51,9 +48,6 @@ public class RobotContainer {
 		shooter = new Shooter();
 		climb = new Climb();
 		indexing = new Indexing();
-
-		// Initialize commands
-		mecanumDrive = new _MecanumDrive(driveTrain);
 	}
 
 	/**

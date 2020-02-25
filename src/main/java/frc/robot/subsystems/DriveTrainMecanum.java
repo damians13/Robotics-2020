@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.utilities.PID;
 import frc.robot.utilities.MiscUtils;
 
@@ -49,6 +50,7 @@ public class DriveTrainMecanum extends SubsystemBase {
         backRight = new CANSparkMax(1, MotorType.kBrushless);
 
         frontRight.setInverted(true);
+        backRight.setInverted(true);
     }
 
     // Needs to be passed a sensors object for some weird reason, otherwise it gives a null reference exception
@@ -79,6 +81,12 @@ public class DriveTrainMecanum extends SubsystemBase {
     @Override
     public void periodic() {
         updateOdometry();
+
+		joyX = Robot.Container.driverControllerAxisValue(Constants.ControllerConstants.Xbox_Right_X_Axis);
+		joyY = -Robot.Container.driverControllerAxisValue(Constants.ControllerConstants.Xbox_Right_Y_Axis);
+        rotation = Robot.Container.driverControllerAxisValue(Constants.ControllerConstants.Xbox_Right_Trigger) - Robot.Container.driverControllerAxisValue(Constants.ControllerConstants.Xbox_Left_Trigger);
+        
+        mecanumDrive(joyX, joyY, rotation);
     }
 
     public void cappedMecanumDrive(double xInput, double yInput, double rotInput, double capSpeed) {
