@@ -13,6 +13,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands._MecanumDrive;
 import frc.robot.subsystems.DriveTrainMecanum;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Indexing;
 import frc.robot.subsystems.Sensors;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -34,8 +35,9 @@ public class RobotContainer {
 	public final Intake intake;
 	public final Shooter shooter;
 	public final Climb climb;
+	public final Indexing indexing;
 
-	private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+	private final ExampleCommand autoCommand = new ExampleCommand(m_exampleSubsystem);
 	private final _MecanumDrive mecanumDrive;
 	
 	public XboxController driverController;
@@ -51,6 +53,7 @@ public class RobotContainer {
 		intake = new Intake();
 		shooter = new Shooter();
 		climb = new Climb();
+		indexing = new Indexing();
 
 		// Initialize commands
 		mecanumDrive = new _MecanumDrive(driveTrain);
@@ -63,6 +66,7 @@ public class RobotContainer {
 	 * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
 	 */
 	private void configureButtonBindings() {
+		// Map the spinning of the shooter to the A button on the joystick
 	}
 
 	public double driverControllerAxisValue(int axis) {
@@ -76,7 +80,6 @@ public class RobotContainer {
 	 * @return the command to run in autonomous
 	 */
 	public Command getAutonomousCommand() {
-		// An ExampleCommand will run in autonomous
-		return m_autoCommand;
+		return autoCommand;
 	}
 }

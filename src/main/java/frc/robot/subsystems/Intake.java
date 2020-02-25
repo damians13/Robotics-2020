@@ -7,32 +7,24 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Robot;
 
 public class Intake extends SubsystemBase {
 
     private VictorSPX intakeMotor;
     private DoubleSolenoid solenoid;
-    private boolean toggle;
+    private boolean spinning;
 
     public Intake() {
         intakeMotor = new VictorSPX(10);
         //                                  moduleNumber, forwardChannel, reverseChannel
         solenoid = new DoubleSolenoid(13, 1, 2);
-        toggle = false;
+        this.spinning = false;
     }
 
     @Override
     public void periodic() {
-        // Get button input
-        if (Robot.Container.driverController.getAButtonPressed()) {
-            toggle = true;
-        } else if (Robot.Container.driverController.getAButtonReleased()) {
-            toggle = false;
-        }
-
         // Set motor speed based on input
-        if (toggle) {
+        if (this.spinning) {
             intakeMotor.set(ControlMode.PercentOutput, Constants.ControlConstants.INTAKE_SPEED);
         } else {
             intakeMotor.set(ControlMode.PercentOutput, 0);
@@ -50,6 +42,25 @@ public class Intake extends SubsystemBase {
             case OFF:
                 solenoid.set(Value.kOff);
                 break;
+        }
+    }
+
+    public boolean start() {
+        if (!this.spinning) {
+            this.spinning = true;
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public boolean stop() {
+        if (this.spinning) {
+            this.spinning = false;
+            return true;
+        } else {
+            return false;
         }
     }
 

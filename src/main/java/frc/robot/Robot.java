@@ -108,6 +108,13 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		if (Container.driverController.getAButtonPressed()) {
+			if (Container.shooter.start()) {
+				System.out.println("Shooter started.");
+			} else if (Container.shooter.stop()) {
+				System.out.println("Shooter stopped.");
+			}
+		}
 	}
 
 	@Override

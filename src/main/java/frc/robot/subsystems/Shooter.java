@@ -4,6 +4,7 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utilities.MiscUtils;
 import frc.robot.utilities.PID;
@@ -18,13 +19,13 @@ public class Shooter extends SubsystemBase {
     private CANEncoder leftEncoder;
     private CANEncoder rightEncoder;
 
-    private final double kP = 0;
+    private final double kP = 1;
     private final double kI = 0;
     private final double kD = 0;
     private final double target = 6000; // RPM
 
     public Shooter() {
-        spinning = false;
+        this.spinning = false;
         shooterPID = new PID(kP, kI, kD, target);
 
         leftMotor = new CANSparkMax(5, MotorType.kBrushless);
@@ -35,14 +36,17 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (spinning) {
+        if (this.spinning) {
             // Not sure if I have to use the miscutils function with the spark maxes, test this
-            leftMotor.set(MiscUtils.encoderToSpeed(leftEncoder.getCountsPerRevolution(), shooterPID.getOutput(leftEncoder.getVelocity())));
-            rightMotor.set(-MiscUtils.encoderToSpeed(rightEncoder.getCountsPerRevolution(), shooterPID.getOutput(rightEncoder.getVelocity())));
+            leftMotor.set(-shooterPID.getOutput(leftEncoder.getVelocity()));
+            rightMotor.set(shooterPID.getOutput(rightEncoder.getVelocity()));
         } else {
             leftMotor.set(0);
             rightMotor.set(0);
         }
+
+        SmartDashboard.putNumber("Shooter Speed", rightEncoder.getVelocity());
+        SmartDashboard.putNumber("Shooter PID", shooterPID.getOutput(rightEncoder.getVelocity()));
     }
 
     /**
@@ -50,8 +54,8 @@ public class Shooter extends SubsystemBase {
      */
 
     public boolean start() {
-        if (!spinning) {
-            spinning = true;
+        if (!this.spinning) {
+            this.spinning = true;
             return true;
         } else {
             return false;
@@ -60,8 +64,8 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean stop() {
-        if (spinning) {
-            spinning = false;
+        if (this.spinning) {
+            this.spinning = false;
             return true;
         } else {
             return false;
