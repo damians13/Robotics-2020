@@ -37,8 +37,6 @@ public class Robot extends TimedRobot {
 		Container = new RobotContainer();
 		compressor = new Compressor(13);
 		compressor.setClosedLoopControl(true);
-
-		compressor.start();
 	}
 
 	/**
@@ -55,10 +53,6 @@ public class Robot extends TimedRobot {
 		// and running subsystem periodic() methods.	This must be called from the robot's periodic
 		// block in order for anything in the Command-based framework to work.
 		CommandScheduler.getInstance().run();
-
-		if (!compressor.enabled()) {
-			compressor.start();
-		}
 	}
 
 	/**

@@ -29,7 +29,8 @@ public class AutoPlan1 extends SequentialCommandGroup {
             new AutoSpin(Spinnables.INTAKE),
             new AutoMove(10 * Constants.UnitConversions.IN_TO_CM * Constants.UnitConversions.FT_TO_IN, 0, Rotation2d.fromDegrees(0)),
             new AutoMove(0, 0, Rotation2d.fromDegrees(-90)),
-            new AutoAimLimelight(),
+            //new AutoAimLimelight(),
+            new AutoAimLimelightSimp(),
             new AutoSpin(Spinnables.SHOOTER),
             new AutoSpin(Spinnables.INDEXING),
             new DoNothing(150), // 3 seconds

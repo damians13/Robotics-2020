@@ -21,7 +21,7 @@ public class Indexing extends SubsystemBase {
     private final double kP = 1;
     private final double kI = 1;
     private final double kD = 1;
-    private final double target = 100; // RPM
+    private final double target = 50; // RPM
 
     public Indexing() {
         leftMotor = new TalonSRX(8);
