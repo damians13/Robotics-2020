@@ -136,6 +136,15 @@ public class Robot extends TimedRobot {
 			AutoAimLimelightSimp autoAim = new AutoAimLimelightSimp();
 			autoAim.schedule();
 		}
+
+		// temp
+		if (Container.driverController.getStartButtonPressed()) {
+			Container.shooter.increase();
+		}
+		if (Container.driverController.getBackButtonPressed()) {
+			Container.shooter.decrease();
+		}
+		Container.shooter.adjustShooter();
 	}
 
 	@Override

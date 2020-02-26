@@ -34,9 +34,13 @@ public class AutoAimLimelightSimp extends CommandBase {
         if (!Robot.Container.sensors.limelightHasTarget()) {
             System.out.println("No target for limelight aim!");
         } else {
-            //if ()
+            double tx = Robot.Container.sensors.getLimelightTX();
 
-            Robot.Container.driveTrain.cappedMecanumDrive(0, 0, -aimPID.getOutput(Robot.Container.sensors.getLimelightTX()), 0.6);
+            if (tx >= goalMin && tx <= goalMax) {
+                this.end(false);
+            } else {
+                Robot.Container.driveTrain.cappedMecanumDrive(0, 0, -aimPID.getOutput(tx), 0.6);
+            }
         }
     }
 

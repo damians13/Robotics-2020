@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utilities.PID;
 
@@ -18,10 +19,15 @@ public class Shooter extends SubsystemBase {
     private CANEncoder leftEncoder;
     private CANEncoder rightEncoder;
 
+    private Servo leftActuator;
+    private Servo rightActuator;
+
     private final double kP = 1;
     private final double kI = 0;
     private final double kD = 0;
     private final double target = 6000; // RPM
+
+    private double height;
 
     public Shooter() {
         this.spinning = false;
@@ -31,6 +37,11 @@ public class Shooter extends SubsystemBase {
         rightMotor = new CANSparkMax(6, MotorType.kBrushless);
         leftEncoder = new CANEncoder(leftMotor);
         rightEncoder = new CANEncoder(rightMotor);
+
+        leftActuator = new Servo(0);
+        rightActuator = new Servo(1);
+
+        height = 0.5;
     }
 
     @Override
@@ -55,6 +66,14 @@ public class Shooter extends SubsystemBase {
     public boolean start() {
         if (!this.spinning) {
             this.spinning = true;
+/*
+            Robot.Container.sensors.getLidarDistance();
+
+            // insert lidar distance to linear actuator input algorithm here
+
+            leftActuator.set(0.5); // 0.5 for now, eventually just put the output of the algorithm
+            rightActuator.set(0.5);
+*/
             return true;
         } else {
             return false;
@@ -69,5 +88,19 @@ public class Shooter extends SubsystemBase {
         } else {
             return false;
         }
+    }
+
+    // temp methods down here
+    public void adjustShooter() {
+        leftActuator.set(this.height);
+        rightActuator.set(this.height);
+    }
+
+    public void increase() {
+        height += 0.02;
+    }
+
+    public void decrease() {
+        height -= 0.02;
     }
 }
