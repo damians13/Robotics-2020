@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.AutoAimLimelightSimp;
 import frc.robot.utilities.MiscUtils;
 
 /**
@@ -104,6 +105,9 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		SmartDashboard.putNumber("TX", Container.sensors.getLimelightTX());
+		SmartDashboard.putBoolean("HasTarget", Container.sensors.limelightHasTarget());
+
 		if (Container.driverController.getAButtonPressed()) {
 			if (Container.shooter.start()) {
 				System.out.println("Shooter started.");
@@ -127,8 +131,11 @@ public class Robot extends TimedRobot {
 				System.out.println("Indexing stopped.");
 			}
 		}
-
-		compressor.start();
+		
+		if (Container.driverController.getYButtonPressed()) {
+			AutoAimLimelightSimp autoAim = new AutoAimLimelightSimp();
+			autoAim.schedule();
+		}
 	}
 
 	@Override
