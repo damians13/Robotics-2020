@@ -145,6 +145,10 @@ public class Robot extends TimedRobot {
 			Container.shooter.decrease();
 		}
 		Container.shooter.adjustShooter();
+
+		System.out.println(Container.driveTrain.getOdometry());
+
+		SmartDashboard.putNumber("LiDAR Output Value", Container.sensors.getLidarDistance());
 	}
 
 	@Override

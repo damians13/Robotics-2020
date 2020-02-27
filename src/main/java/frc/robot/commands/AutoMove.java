@@ -16,17 +16,17 @@ public class AutoMove extends CommandBase {
     private double moveY;
     private double moveRot;
 
-	private final double xPIDkP = 0.0;
-	private final double xPIDkI = 0.0;
-	private final double xPIDkD = 0.0;
+	private final double xPIDkP = 1;
+	private final double xPIDkI = 1;
+	private final double xPIDkD = 1;
 
-	private final double yPIDkP = 0.0;
-	private final double yPIDkI = 0.0;
-	private final double yPIDkD = 0.0;
+	private final double yPIDkP = 1;
+	private final double yPIDkI = 1;
+	private final double yPIDkD = 1;
 
-	private final double rotPIDkP = 0.0;
-	private final double rotPIDkI = 0.0;
-	private final double rotPIDkD = 0.0;
+	private final double rotPIDkP = 1;
+	private final double rotPIDkI = 1;
+	private final double rotPIDkD = 1;
 
 	private PID xPID; // Based off side to side alignment with target
 	private PID yPID; // Based off distance to target (negative is forwards)

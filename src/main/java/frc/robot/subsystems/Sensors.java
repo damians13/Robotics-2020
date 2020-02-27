@@ -46,7 +46,7 @@ public class Sensors extends SubsystemBase {
         irSensor1 = new AnalogInput(0); // Initialize with the channel number the sensor is plugged into
         colourSensor = new ColorSensorV3(I2C.Port.kOnboard);
         limelight = NetworkTableInstance.getDefault().getTable("limelight");
-        lidar = new LiDAR(Port.kMXP);
+        lidar = new LiDAR(Port.kOnboard);
 
         frontRightEncoder = new CANEncoder(this.container.driveTrain.frontRight);
         frontLeftEncoder = new CANEncoder(this.container.driveTrain.frontLeft);

@@ -38,10 +38,10 @@ public final class Constants {
         public static final double MIN_LINEAR_ACTUATOR_INPUT = 0.5;
 
         // Locations of mecanum wheels in relation to the center of the robot
-        public static final Translation2d frontLeftLocation = new Translation2d(0, 0);
-        public static final Translation2d frontRightLocation = new Translation2d(0, 0);
-        public static final Translation2d backLeftLocation = new Translation2d(0, 0);
-        public static final Translation2d backRightLocation = new Translation2d(0, 0);
+        public static final Translation2d frontLeftLocation = new Translation2d(0.25, 0.25);
+        public static final Translation2d frontRightLocation = new Translation2d(0.25, 0.25);
+        public static final Translation2d backLeftLocation = new Translation2d(0.25, 0.25);
+        public static final Translation2d backRightLocation = new Translation2d(0.25, 0.25);
     }
 
     public static class ControllerConstants {

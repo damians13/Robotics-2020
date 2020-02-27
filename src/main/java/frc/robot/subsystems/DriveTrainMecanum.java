@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.MecanumDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.MecanumDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.MecanumDriveWheelSpeeds;
@@ -25,6 +26,8 @@ public class DriveTrainMecanum extends SubsystemBase {
     private MecanumDriveKinematics driveKinematics;
     private MecanumDriveOdometry driveOdometry;
     private MecanumDriveWheelSpeeds wheelSpeeds;
+
+    public Pose2d currentOdometry;
 
     private RobotContainer container; // This classes reference to the RobotContainer
 
@@ -49,6 +52,8 @@ public class DriveTrainMecanum extends SubsystemBase {
         backLeft = new CANSparkMax(4, MotorType.kBrushless);
         backRight = new CANSparkMax(1, MotorType.kBrushless);
 
+        currentOdometry = new Pose2d(new Translation2d(0, 0), Rotation2d.fromDegrees(0));
+
         frontRight.setInverted(true);
         backRight.setInverted(true);
     }
@@ -71,6 +76,7 @@ public class DriveTrainMecanum extends SubsystemBase {
 
     public void updateOdometry() {
         driveOdometry.update(Rotation2d.fromDegrees(this.container.sensors.getGyroZ() / 50), wheelSpeeds);
+        // not working: currentOdometry.plus(driveOdometry.getPoseMeters());
     }
 
     public Pose2d getOdometry() {

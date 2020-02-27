@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utilities.PID;
 
@@ -13,10 +14,11 @@ public class Indexing extends SubsystemBase {
     private TalonSRX rightMotor;
     private CANCoder leftEncoder;
     private CANCoder rightEncoder;
-    // need encoders too
 
     private boolean spinning;
     private PID indexingPID;
+
+    private AnalogInput irSensor;
 
     private final double kP = 1;
     private final double kI = 1;
@@ -28,6 +30,8 @@ public class Indexing extends SubsystemBase {
         rightMotor = new TalonSRX(9);
         leftEncoder = new CANCoder(8);
         rightEncoder = new CANCoder(9);
+
+        irSensor = new AnalogInput(2);
 
         indexingPID = new PID(kP, kI, kD, target);
     }
@@ -42,6 +46,8 @@ public class Indexing extends SubsystemBase {
             leftMotor.set(ControlMode.PercentOutput, 0);
             rightMotor.set(ControlMode.PercentOutput, 0);
         }
+        
+        //System.out.println("irSensor: " + irSensor.getValue());
     }
 
 

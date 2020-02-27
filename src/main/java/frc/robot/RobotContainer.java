@@ -9,6 +9,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPlan1;
 import frc.robot.subsystems.DriveTrainMecanum;
 import frc.robot.subsystems.Indexing;
@@ -35,10 +37,12 @@ public class RobotContainer {
 	public final Indexing indexing;
 	
 	public XboxController driverController;
+	public XboxController secondaryController;
 
 	public RobotContainer() {
 		// Configure controller(s)
 		driverController = new XboxController(0);
+		secondaryController = new XboxController(1);
 		configureButtonBindings();
 
 		// Initialize subsystems
@@ -64,6 +68,10 @@ public class RobotContainer {
 		return driverController.getRawAxis(axis);
 	}
 
+	public double secondaryControllerAxisValue(int axis) {
+		return secondaryController.getRawAxis(axis);
+	}
+
 
 	/**
 	 * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -71,6 +79,7 @@ public class RobotContainer {
 	 * @return the command to run in autonomous
 	 */
 	public Command getAutonomousCommand() {
-		return new AutoPlan1();
+		//return new AutoPlan1();
+		return new AutoMove(0, 2 * Constants.UnitConversions.FT_TO_IN * Constants.UnitConversions.IN_TO_CM, Rotation2d.fromDegrees(0));
 	}
 }

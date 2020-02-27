@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.utilities.MiscUtils;
 import frc.robot.utilities.PID;
 
@@ -29,7 +30,7 @@ public class Climb extends SubsystemBase {
     public Climb() {
         holdExtenderArm = new PID(kP, kI, kD, 0);
 
-        smallWinch = new VictorSPX(11); // lol
+        smallWinch = new VictorSPX(11);
         bigWinch = new CANSparkMax(7, MotorType.kBrushless);
         bigWinchEncoder = new CANEncoder(bigWinch);
         //               PCM CAN ID, forwardChannel, reverseChannel
@@ -38,7 +39,9 @@ public class Climb extends SubsystemBase {
 
     @Override
     public void periodic() {
-
+        smallWinch.set(ControlMode.PercentOutput, Robot.Container.secondaryControllerAxisValue(Constants.ControllerConstants.Xbox_Left_Y_Axis));
+        //System.out.println("smallWinch controller input: " + Robot.Container.secondaryControllerAxisValue(Constants.ControllerConstants.Xbox_Left_Y_Axis));
+        bigWinch.set(Robot.Container.secondaryControllerAxisValue(Constants.ControllerConstants.Xbox_Right_Y_Axis));
     }
 
     public double getWinchEncoder() {
