@@ -146,7 +146,18 @@ public class Robot extends TimedRobot {
 		}
 		Container.shooter.adjustShooter();
 
-		System.out.println(Container.driveTrain.getOdometry());
+		if (Container.secondaryController.getAButtonPressed()) {
+			Container.colourWheel.setPistonState(Constants.SolenoidStates.UP);
+		}
+		if (Container.secondaryController.getBButtonPressed()) {
+			Container.colourWheel.setPistonState(Constants.SolenoidStates.DOWN);
+		}
+
+		System.out.println(Container.sensors.frontRightEncoder.getPosition());
+
+		SmartDashboard.putNumber("Odometry X", Container.driveTrain.getOdometry().getTranslation().getX());
+		SmartDashboard.putNumber("Odometry Y", Container.driveTrain.getOdometry().getTranslation().getY());
+		SmartDashboard.putNumber("Odometry Rot", Container.driveTrain.getOdometry().getRotation().getDegrees());
 
 		SmartDashboard.putNumber("LiDAR Output Value", Container.sensors.getLidarDistance());
 	}

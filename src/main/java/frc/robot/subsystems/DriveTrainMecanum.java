@@ -65,18 +65,27 @@ public class DriveTrainMecanum extends SubsystemBase {
         driveOdometry = new MecanumDriveOdometry(driveKinematics, Rotation2d.fromDegrees(sensors.getGyroZ() / 50), new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
         wheelSpeeds = new MecanumDriveWheelSpeeds(
             // Front left
-            MiscUtils.encoderToSpeed(sensors.getEncoderResolution(Sensors._Encoder.FRONT_LEFT), sensors.getEncoderRotations(Sensors._Encoder.FRONT_LEFT)),
+            MiscUtils.encoderToSpeed(sensors.getEncoderResolution(Sensors._Encoder.FRONT_LEFT), sensors.getEncoderSpeed(Sensors._Encoder.FRONT_LEFT)),
             // Front right
-            MiscUtils.encoderToSpeed(sensors.getEncoderResolution(Sensors._Encoder.FRONT_RIGHT), sensors.getEncoderRotations(Sensors._Encoder.FRONT_RIGHT)),
+            MiscUtils.encoderToSpeed(sensors.getEncoderResolution(Sensors._Encoder.FRONT_RIGHT), sensors.getEncoderSpeed(Sensors._Encoder.FRONT_RIGHT)),
             // Back left
-            MiscUtils.encoderToSpeed(sensors.getEncoderResolution(Sensors._Encoder.BACK_LEFT), sensors.getEncoderRotations(Sensors._Encoder.BACK_LEFT)),
+            MiscUtils.encoderToSpeed(sensors.getEncoderResolution(Sensors._Encoder.BACK_LEFT), sensors.getEncoderSpeed(Sensors._Encoder.BACK_LEFT)),
             // Back right
-            MiscUtils.encoderToSpeed(sensors.getEncoderResolution(Sensors._Encoder.BACK_RIGHT), sensors.getEncoderRotations(Sensors._Encoder.BACK_RIGHT)));
+            MiscUtils.encoderToSpeed(sensors.getEncoderResolution(Sensors._Encoder.BACK_RIGHT), sensors.getEncoderSpeed(Sensors._Encoder.BACK_RIGHT)));
     }
 
-    public void updateOdometry() {
+    public void updateOdometry(Sensors sensors) {
+        wheelSpeeds = new MecanumDriveWheelSpeeds(
+            // Front left
+            MiscUtils.encoderToSpeed(sensors.getEncoderResolution(Sensors._Encoder.FRONT_LEFT), sensors.getEncoderSpeed(Sensors._Encoder.FRONT_LEFT)),
+            // Front right
+            MiscUtils.encoderToSpeed(sensors.getEncoderResolution(Sensors._Encoder.FRONT_RIGHT), sensors.getEncoderSpeed(Sensors._Encoder.FRONT_RIGHT)),
+            // Back left
+            MiscUtils.encoderToSpeed(sensors.getEncoderResolution(Sensors._Encoder.BACK_LEFT), sensors.getEncoderSpeed(Sensors._Encoder.BACK_LEFT)),
+            // Back right
+            MiscUtils.encoderToSpeed(sensors.getEncoderResolution(Sensors._Encoder.BACK_RIGHT), sensors.getEncoderSpeed(Sensors._Encoder.BACK_RIGHT)));
+
         driveOdometry.update(Rotation2d.fromDegrees(this.container.sensors.getGyroZ() / 50), wheelSpeeds);
-        // not working: currentOdometry.plus(driveOdometry.getPoseMeters());
     }
 
     public Pose2d getOdometry() {
@@ -86,7 +95,7 @@ public class DriveTrainMecanum extends SubsystemBase {
     // Run every time the scheduler runs (50hz)
     @Override
     public void periodic() {
-        updateOdometry();
+        updateOdometry(Robot.Container.sensors);
 
 		joyX = Robot.Container.driverControllerAxisValue(Constants.ControllerConstants.Xbox_Right_X_Axis);
 		joyY = -Robot.Container.driverControllerAxisValue(Constants.ControllerConstants.Xbox_Right_Y_Axis);

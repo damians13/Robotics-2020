@@ -18,6 +18,7 @@ import frc.robot.subsystems.Sensors;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Climb;
+import frc.robot.subsystems.ColourWheel;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -35,6 +36,7 @@ public class RobotContainer {
 	public final Shooter shooter;
 	public final Climb climb;
 	public final Indexing indexing;
+	public final ColourWheel colourWheel;
 	
 	public XboxController driverController;
 	public XboxController secondaryController;
@@ -52,6 +54,7 @@ public class RobotContainer {
 		shooter = new Shooter();
 		climb = new Climb();
 		indexing = new Indexing();
+		colourWheel = new ColourWheel();
 	}
 
 	/**

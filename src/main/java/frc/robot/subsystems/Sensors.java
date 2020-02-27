@@ -26,7 +26,7 @@ public class Sensors extends SubsystemBase {
 
     private RobotContainer container; // This classes reference to the RobotContainer
 
-    private static CANEncoder frontRightEncoder;
+    public CANEncoder frontRightEncoder;
     private static CANEncoder frontLeftEncoder;
     private static CANEncoder backRightEncoder;
     private static CANEncoder backLeftEncoder;
@@ -75,6 +75,23 @@ public class Sensors extends SubsystemBase {
                 return backRightEncoder.getPosition();
             case BACK_LEFT:
                 return backLeftEncoder.getPosition();
+            default:
+                System.out.println("Problem getting encoder position.");
+                return 0;
+        }
+    }
+
+    // We could just use 4096 for this, but this method will ensure accuracy if one changes
+    public double getEncoderSpeed(_Encoder encoder) {
+        switch(encoder) {
+            case FRONT_RIGHT:
+                return frontRightEncoder.getVelocity();
+            case FRONT_LEFT:
+                return frontLeftEncoder.getVelocity();
+            case BACK_RIGHT:
+                return backRightEncoder.getVelocity();
+            case BACK_LEFT:
+                return backLeftEncoder.getVelocity();
             default:
                 System.out.println("Problem getting encoder position.");
                 return 0;
