@@ -5,11 +5,15 @@ import frc.robot.Robot;
 
 public class AutoSpin extends CommandBase {
 
+    private boolean finished;
+
     public static enum Spinnables {
         SHOOTER, INTAKE, INDEXING
     }
 
     public AutoSpin(Spinnables spinnable) {
+        this.finished = false;
+
         switch (spinnable) {
             case SHOOTER:
                 if (Robot.Container.shooter.start()) {
@@ -33,5 +37,10 @@ public class AutoSpin extends CommandBase {
                 }
                 break;
         }
+    }
+
+    @Override
+    public boolean isFinished() {
+        return this.finished;
     }
 }

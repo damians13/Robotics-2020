@@ -94,5 +94,8 @@ public final class Constants {
         public static final double CM_TO_M = 1 / 100;
         public static final double IN_TO_M = 0.0254;
         public static final double M_TO_IN = 1 / 0.0254;
+
+        //public static final double ODOMETRY_TO_M = 2314;
+        public static final double ODOMETRY_TO_M = 1;
     }
 }

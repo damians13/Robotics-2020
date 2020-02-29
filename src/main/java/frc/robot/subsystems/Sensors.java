@@ -43,10 +43,10 @@ public class Sensors extends SubsystemBase {
         this.container = container;
 
         navx = new AHRS(SPI.Port.kMXP, (byte) 50);
-        irSensor1 = new AnalogInput(0); // Initialize with the channel number the sensor is plugged into
+        irSensor1 = new AnalogInput(2);
         colourSensor = new ColorSensorV3(I2C.Port.kOnboard);
         limelight = NetworkTableInstance.getDefault().getTable("limelight");
-        lidar = new LiDAR(Port.kOnboard);
+        lidar = new LiDAR(Port.kMXP);
 
         frontRightEncoder = new CANEncoder(this.container.driveTrain.frontRight);
         frontLeftEncoder = new CANEncoder(this.container.driveTrain.frontLeft);
@@ -130,6 +130,10 @@ public class Sensors extends SubsystemBase {
         }
     }
 
+    public String getColourSensorColour() {
+        return colourSensor.getColor().toString();
+    }
+
     public int getColourSensorRed() {
         return colourSensor.getRed();
     }
@@ -156,6 +160,10 @@ public class Sensors extends SubsystemBase {
 
     public void turnOnLimelightLED() {
         limelight.getEntry("ledMode").setNumber(0);
+    }
+
+    public void setLimelightPipeline(int value) {
+        limelight.getEntry("pipeline").setNumber(value);
     }
 
     public int getLimelightLED() {

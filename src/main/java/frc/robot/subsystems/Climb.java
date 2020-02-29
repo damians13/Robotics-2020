@@ -39,9 +39,17 @@ public class Climb extends SubsystemBase {
 
     @Override
     public void periodic() {
-        smallWinch.set(ControlMode.PercentOutput, Robot.Container.secondaryControllerAxisValue(Constants.ControllerConstants.Xbox_Left_Y_Axis));
-        //System.out.println("smallWinch controller input: " + Robot.Container.secondaryControllerAxisValue(Constants.ControllerConstants.Xbox_Left_Y_Axis));
-        bigWinch.set(Robot.Container.secondaryControllerAxisValue(Constants.ControllerConstants.Xbox_Right_Y_Axis));
+        if (Math.abs(Robot.Container.secondaryControllerAxisValue(Constants.ControllerConstants.Xbox_Left_Y_Axis)) > 0.05) {
+            smallWinch.set(ControlMode.PercentOutput, Robot.Container.secondaryControllerAxisValue(Constants.ControllerConstants.Xbox_Left_Y_Axis));
+        } else {
+            smallWinch.set(ControlMode.PercentOutput, 0);
+        }
+
+        if (Math.abs(Robot.Container.secondaryControllerAxisValue(Constants.ControllerConstants.Xbox_Right_Y_Axis)) > 0.05) {
+            bigWinch.set(Robot.Container.secondaryControllerAxisValue(Constants.ControllerConstants.Xbox_Right_Y_Axis));
+        } else {
+            bigWinch.set(0);
+        }
     }
 
     public double getWinchEncoder() {

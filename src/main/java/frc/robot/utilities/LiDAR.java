@@ -47,7 +47,7 @@ public class LiDAR {
 		return I2CJNI.i2CWrite(m_port, k_deviceAddress, m_buffer, (byte) 2);
 	}
 
-	private short readShort(int address) {
+	public short readShort(int address) {
 		m_buffer.put(0, (byte) address);
 		I2CJNI.i2CWrite(m_port, k_deviceAddress, m_buffer, (byte) 1);
 		I2CJNI.i2CRead(m_port, k_deviceAddress, m_buffer, (byte) 2);
