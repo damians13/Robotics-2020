@@ -226,5 +226,13 @@ public class Sensors extends SubsystemBase {
     public double getLidarDistance() {
         return lidar.getDistance();
     }
+
+    public void startMeasuringLidar() {
+        lidar.startMeasuring();
+    }
+
+    public void stopMeasuringLidar() {
+        lidar.stopMeasuring();
+    }
     
 }
