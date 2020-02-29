@@ -48,8 +48,8 @@ public class Shooter extends SubsystemBase {
     public void periodic() {
         if (this.spinning) {
             // Not sure if I have to use the miscutils function with the spark maxes, test this
-            leftMotor.set(shooterPID.getOutput(leftEncoder.getVelocity()));
-            rightMotor.set(-shooterPID.getOutput(rightEncoder.getVelocity()));
+            leftMotor.set(-shooterPID.getOutput(leftEncoder.getVelocity()));
+            rightMotor.set(shooterPID.getOutput(rightEncoder.getVelocity()));
         } else {
             leftMotor.set(0);
             rightMotor.set(0);
@@ -104,10 +104,10 @@ public class Shooter extends SubsystemBase {
     }
 
     public void increase() {
-        height += 0.02;
+        height += 0.005;
     }
 
     public void decrease() {
-        height -= 0.02;
+        height -= 0.005;
     }
 }

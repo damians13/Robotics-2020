@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoPlan1;
+import frc.robot.commands.DoNothing;
 import frc.robot.subsystems.DriveTrainMecanum;
 import frc.robot.subsystems.Indexing;
 import frc.robot.subsystems.Sensors;
@@ -83,6 +84,7 @@ public class RobotContainer {
 	 */
 	public Command getAutonomousCommand() {
 		//return new AutoPlan1();
-		return new AutoMove(0, 2 * Constants.UnitConversions.FT_TO_IN * Constants.UnitConversions.IN_TO_CM, Rotation2d.fromDegrees(0));
+		//return new AutoMove(0, 2 * Constants.UnitConversions.FT_TO_IN * Constants.UnitConversions.IN_TO_CM, Rotation2d.fromDegrees(0));
+		return new DoNothing(100);
 	}
 }

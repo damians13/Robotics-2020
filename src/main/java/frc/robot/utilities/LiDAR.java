@@ -3,6 +3,7 @@ package frc.robot.utilities;
 import java.nio.ByteBuffer;
 
 import edu.wpi.first.hal.I2CJNI;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 
 /**

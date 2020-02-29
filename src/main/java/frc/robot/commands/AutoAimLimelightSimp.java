@@ -20,6 +20,7 @@ public class AutoAimLimelightSimp extends CommandBase {
     private static final double kP = 0.022;
     private static final double kI = 0.005;
     private static final double kD = 0;
+    private static final double target = -2.65;
 
     @Override
     public void initialize() {
@@ -28,7 +29,7 @@ public class AutoAimLimelightSimp extends CommandBase {
 
         Robot.Container.driveTrain.stopGyroComp();
 
-        aimPID = new PID(kP, kI, kD, 0);
+        aimPID = new PID(kP, kI, kD, target);
 
         this.finished = false;
     }

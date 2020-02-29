@@ -36,12 +36,13 @@ public class Indexing extends SubsystemBase {
     @Override
     public void periodic() {
         if (spinning) {
-            leftMotor.set(ControlMode.PercentOutput, indexingPID.getOutput(leftMotor.getSelectedSensorVelocity()));
-            rightMotor.set(ControlMode.PercentOutput, -indexingPID.getOutput(rightMotor.getSelectedSensorVelocity()));
+            //leftMotor.set(ControlMode.PercentOutput, indexingPID.getOutput(leftMotor.getSelectedSensorVelocity()));
+            //rightMotor.set(ControlMode.PercentOutput, -indexingPID.getOutput(rightMotor.getSelectedSensorVelocity()));
 
             SmartDashboard.putNumber("Indexing Encoder Output", leftMotor.getSelectedSensorVelocity());
-            //System.out.println(rightMotor.getSelectedSensorVelocity());
-            System.out.println(indexingPID.getOutput(leftMotor.getSelectedSensorVelocity()));
+
+            leftMotor.set(ControlMode.PercentOutput, 0.16);
+            rightMotor.set(ControlMode.PercentOutput, -0.16);
         } else {
             leftMotor.set(ControlMode.PercentOutput, 0);
             rightMotor.set(ControlMode.PercentOutput, 0);

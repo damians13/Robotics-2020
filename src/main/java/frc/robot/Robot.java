@@ -57,6 +57,14 @@ public class Robot extends TimedRobot {
 		// and running subsystem periodic() methods.	This must be called from the robot's periodic
 		// block in order for anything in the Command-based framework to work.
 		CommandScheduler.getInstance().run();
+		
+		SmartDashboard.putNumber("Odometry X", Container.driveTrain.getOdometry().getTranslation().getX());
+		SmartDashboard.putNumber("Odometry Y", Container.driveTrain.getOdometry().getTranslation().getY());
+		SmartDashboard.putNumber("Odometry Rot", Container.driveTrain.getOdometry().getRotation().getDegrees());
+
+		SmartDashboard.putNumber("LiDAR Output Value", Container.sensors.getLidarDistance());
+		SmartDashboard.putNumber("Limelight horizontal length", Container.sensors.getLimelightTHor());
+		SmartDashboard.putNumber("Limelight target y", Container.sensors.getLimelightTY());
 	}
 
 	/**
@@ -111,7 +119,6 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("TX", Container.sensors.getLimelightTX());
 		SmartDashboard.putBoolean("HasTarget", Container.sensors.limelightHasTarget());
 		SmartDashboard.putString("FMS Desired Colour", getColourFromFMS());
-		SmartDashboard.putString("Current Colour", Container.sensors.getColourSensorColour());
 
 		if (Container.driverController.getAButtonPressed()) {
 			if (Container.shooter.start()) {
@@ -152,17 +159,13 @@ public class Robot extends TimedRobot {
 		Container.shooter.adjustShooter();
 
 		if (Container.secondaryController.getAButtonPressed()) {
-			Container.intake.setPistonState(Constants.SolenoidStates.UP);
+			Container.climb.setPistonState(Constants.SolenoidStates.UP);
 		}
 		if (Container.secondaryController.getBButtonPressed()) {
-			Container.intake.setPistonState(Constants.SolenoidStates.DOWN);
+			Container.climb.setPistonState(Constants.SolenoidStates.DOWN);
 		}
 
-		SmartDashboard.putNumber("Odometry X", Container.driveTrain.getOdometry().getTranslation().getX() * 100 * 12.75);
-		SmartDashboard.putNumber("Odometry Y", Container.driveTrain.getOdometry().getTranslation().getY() * 100 * 12.75);
-		SmartDashboard.putNumber("Odometry Rot", Container.driveTrain.getOdometry().getRotation().getDegrees());
-
-		SmartDashboard.putNumber("LiDAR Output Value", Container.sensors.getLidarDistance());
+		//Container.colourWheel.setMotorSpeed(Container.secondaryControllerAxisValue(Constants.ControllerConstants.Xbox_Right_Y_Axis));
 	}
 
 	@Override

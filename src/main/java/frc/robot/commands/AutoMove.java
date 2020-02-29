@@ -62,13 +62,15 @@ public class AutoMove extends CommandBase {
         currentPosition = Robot.Container.driveTrain.getOdometry();
 
         if (currentPosition == targetPosition) {
-            this.finished = true;;
+            Robot.Container.driveTrain.cappedMecanumDrive(0, 0, 0, 0);
+            System.out.println("Done!");
+            this.finished = true;
         } else {
             moveX = xPID.getOutput(currentPosition.getTranslation().getX());
             moveY = yPID.getOutput(currentPosition.getTranslation().getY());
             moveX = rotPID.getOutput(currentPosition.getRotation().getDegrees());
 
-            Robot.Container.driveTrain.cappedMecanumDrive(moveX, moveY, moveRot, 0.6);
+            Robot.Container.driveTrain.cappedMecanumDrive(moveX, moveY, moveRot, 0.1);
         }
     }
 

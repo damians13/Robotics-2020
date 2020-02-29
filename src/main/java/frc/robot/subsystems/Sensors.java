@@ -10,10 +10,10 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.utilities.LiDAR;
-import frc.robot.utilities.LiDARPWM;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.wpilibj.I2C;
 
@@ -24,8 +24,7 @@ public class Sensors extends SubsystemBase {
     private AnalogInput irSensor1;
     private ColorSensorV3 colourSensor;
     private NetworkTable limelight;
-    //private LiDAR lidar;
-    private LiDARPWM lidar;
+    private LiDAR lidar;
 
     private RobotContainer container; // This classes reference to the RobotContainer
 
@@ -49,32 +48,7 @@ public class Sensors extends SubsystemBase {
         irSensor1 = new AnalogInput(2);
         colourSensor = new ColorSensorV3(I2C.Port.kOnboard);
         limelight = NetworkTableInstance.getDefault().getTable("limelight");
-        lidar = new LiDARPWM(new DigitalSource(){
-        
-            @Override
-            public int getPortHandleForRouting() {
-                // TODO Auto-generated method stub
-                return 0;
-            }
-        
-            @Override
-            public int getAnalogTriggerTypeForRouting() {
-                // TODO Auto-generated method stub
-                return 0;
-            }
-        
-            @Override
-            public boolean isAnalogTrigger() {
-                // TODO Auto-generated method stub
-                return false;
-            }
-        
-            @Override
-            public int getChannel() {
-                // TODO Auto-generated method stub
-                return 0;
-            }
-        });
+        lidar = new LiDAR(Port.kMXP);
 
         frontRightEncoder = new CANEncoder(this.container.driveTrain.frontRight);
         frontLeftEncoder = new CANEncoder(this.container.driveTrain.frontLeft);
@@ -156,10 +130,6 @@ public class Sensors extends SubsystemBase {
                 System.out.println("Problem getting encoder resolution.");
                 return 0;
         }
-    }
-
-    public String getColourSensorColour() {
-        return colourSensor.getColor().toString();
     }
 
     public int getColourSensorRed() {
