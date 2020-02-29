@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -33,11 +34,13 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		// Instantiate our RobotContainer.	This will perform all our button bindings, and put our
-		// autonomous chooser on the dashboard.
 		Container = new RobotContainer();
 		compressor = new Compressor(13);
 		compressor.setClosedLoopControl(true);
+
+		Container.sensors.setLimelightPipeline(1);
+
+		Container.shooter.setStartHeight();
 	}
 
 	/**
@@ -107,6 +110,8 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		SmartDashboard.putNumber("TX", Container.sensors.getLimelightTX());
 		SmartDashboard.putBoolean("HasTarget", Container.sensors.limelightHasTarget());
+		SmartDashboard.putString("FMS Desired Colour", getColourFromFMS());
+		SmartDashboard.putString("Current Colour", Container.sensors.getColourSensorColour());
 
 		if (Container.driverController.getAButtonPressed()) {
 			if (Container.shooter.start()) {
@@ -147,16 +152,14 @@ public class Robot extends TimedRobot {
 		Container.shooter.adjustShooter();
 
 		if (Container.secondaryController.getAButtonPressed()) {
-			Container.colourWheel.setPistonState(Constants.SolenoidStates.UP);
+			Container.intake.setPistonState(Constants.SolenoidStates.UP);
 		}
 		if (Container.secondaryController.getBButtonPressed()) {
-			Container.colourWheel.setPistonState(Constants.SolenoidStates.DOWN);
+			Container.intake.setPistonState(Constants.SolenoidStates.DOWN);
 		}
 
-		System.out.println(Container.sensors.frontRightEncoder.getPosition());
-
-		SmartDashboard.putNumber("Odometry X", Container.driveTrain.getOdometry().getTranslation().getX());
-		SmartDashboard.putNumber("Odometry Y", Container.driveTrain.getOdometry().getTranslation().getY());
+		SmartDashboard.putNumber("Odometry X", Container.driveTrain.getOdometry().getTranslation().getX() * 100 * 12.75);
+		SmartDashboard.putNumber("Odometry Y", Container.driveTrain.getOdometry().getTranslation().getY() * 100 * 12.75);
 		SmartDashboard.putNumber("Odometry Rot", Container.driveTrain.getOdometry().getRotation().getDegrees());
 
 		SmartDashboard.putNumber("LiDAR Output Value", Container.sensors.getLidarDistance());
@@ -187,5 +190,26 @@ public class Robot extends TimedRobot {
 		//SmartDashboard.putNumber("RED", Container.sensors.getColourSensorRed());
 		//SmartDashboard.putNumber("GREEN", Container.sensors.getColourSensorGreen());
 		//SmartDashboard.putNumber("BLUE", Container.sensors.getColourSensorBlue());
+	}
+
+	private String getColourFromFMS() {
+		String gameData = DriverStation.getInstance().getGameSpecificMessage();
+
+		if(gameData.length() > 0) {
+			switch (gameData.charAt(0)) {
+				case 'B':
+					return "Blue";
+				case 'G':
+					return "Green";
+				case 'R':
+					return "Red";
+				case 'Y':
+					return "Yellow";
+				default:
+					return "Corrupt colour";
+			}
+		} else {
+			return "No colour yet.";
+		}
 	}
 }

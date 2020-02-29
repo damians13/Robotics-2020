@@ -26,7 +26,9 @@ public class AutoMove extends CommandBase {
 
 	private final double rotPIDkP = 1;
 	private final double rotPIDkI = 1;
-	private final double rotPIDkD = 1;
+    private final double rotPIDkD = 1;
+    
+    private boolean finished;
 
 	private PID xPID; // Based off side to side alignment with target
 	private PID yPID; // Based off distance to target (negative is forwards)
@@ -51,6 +53,8 @@ public class AutoMove extends CommandBase {
         xPID = new PID(xPIDkP, xPIDkI, xPIDkD, targetPosition.getTranslation().getX());
         yPID = new PID(yPIDkP, yPIDkI, yPIDkD, targetPosition.getTranslation().getY());
         rotPID = new PID(rotPIDkP, rotPIDkI, rotPIDkD, targetPosition.getRotation().getDegrees());
+
+        this.finished = false;
     }
 
     @Override
@@ -58,7 +62,7 @@ public class AutoMove extends CommandBase {
         currentPosition = Robot.Container.driveTrain.getOdometry();
 
         if (currentPosition == targetPosition) {
-            this.end(false);
+            this.finished = true;;
         } else {
             moveX = xPID.getOutput(currentPosition.getTranslation().getX());
             moveY = yPID.getOutput(currentPosition.getTranslation().getY());
@@ -71,6 +75,11 @@ public class AutoMove extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         System.out.println("AutoMove instruction finished.  Interrupted: " + interrupted);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return this.finished;
     }
 
 }

@@ -1,37 +1,34 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.utilities.MiscUtils;
 import frc.robot.utilities.PID;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.sensors.CANCoder;
 
 public class Indexing extends SubsystemBase {
 
     private TalonSRX leftMotor;
     private TalonSRX rightMotor;
-    private CANCoder leftEncoder;
-    private CANCoder rightEncoder;
 
     private boolean spinning;
     private PID indexingPID;
 
-    private AnalogInput irSensor;
-
-    private final double kP = 1;
-    private final double kI = 1;
-    private final double kD = 1;
-    private final double target = 50; // RPM
+    private final double kP = 0.0005;
+    private final double kI = 0.0001;
+    private final double kD = 0;
+    private final double target = 80; // RPM (I think)
 
     public Indexing() {
         leftMotor = new TalonSRX(8);
         rightMotor = new TalonSRX(9);
-        leftEncoder = new CANCoder(8);
-        rightEncoder = new CANCoder(9);
 
-        irSensor = new AnalogInput(2);
+        // Last value is timeout in milliseconds
+        leftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 25);
+        rightMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 25);
 
         indexingPID = new PID(kP, kI, kD, target);
     }
@@ -39,9 +36,12 @@ public class Indexing extends SubsystemBase {
     @Override
     public void periodic() {
         if (spinning) {
-            // Not sure if I have to use the miscutils function with the encodersit, test this
-            leftMotor.set(ControlMode.PercentOutput, indexingPID.getOutput(leftEncoder.getVelocity()));
-            rightMotor.set(ControlMode.PercentOutput, -indexingPID.getOutput(rightEncoder.getVelocity()));
+            leftMotor.set(ControlMode.PercentOutput, indexingPID.getOutput(leftMotor.getSelectedSensorVelocity()));
+            rightMotor.set(ControlMode.PercentOutput, -indexingPID.getOutput(rightMotor.getSelectedSensorVelocity()));
+
+            SmartDashboard.putNumber("Indexing Encoder Output", leftMotor.getSelectedSensorVelocity());
+            //System.out.println(rightMotor.getSelectedSensorVelocity());
+            System.out.println(indexingPID.getOutput(leftMotor.getSelectedSensorVelocity()));
         } else {
             leftMotor.set(ControlMode.PercentOutput, 0);
             rightMotor.set(ControlMode.PercentOutput, 0);

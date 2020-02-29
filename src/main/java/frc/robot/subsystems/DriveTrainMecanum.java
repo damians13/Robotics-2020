@@ -27,6 +27,8 @@ public class DriveTrainMecanum extends SubsystemBase {
     private MecanumDriveOdometry driveOdometry;
     private MecanumDriveWheelSpeeds wheelSpeeds;
 
+    private boolean gyroCompensate;
+
     public Pose2d currentOdometry;
 
     private RobotContainer container; // This classes reference to the RobotContainer
@@ -41,6 +43,8 @@ public class DriveTrainMecanum extends SubsystemBase {
     double backRightPower = 0;
     double totalGyroDifference = 0;
 
+    private double totalMeasuredRotation;
+
     //                            kP     kI     kD target
     private PID gyroPID = new PID(0.007, 0.007, 0, 0);
 
@@ -52,17 +56,28 @@ public class DriveTrainMecanum extends SubsystemBase {
         backLeft = new CANSparkMax(4, MotorType.kBrushless);
         backRight = new CANSparkMax(1, MotorType.kBrushless);
 
+        gyroCompensate = true;
+
         currentOdometry = new Pose2d(new Translation2d(0, 0), Rotation2d.fromDegrees(0));
+
+        totalMeasuredRotation = 0;
 
         frontRight.setInverted(true);
         backRight.setInverted(true);
+    }
+
+    public void startGyroComp() {
+        this.gyroCompensate = true;
+    }
+    public void stopGyroComp() {
+        this.gyroCompensate = false;
     }
 
     // Needs to be passed a sensors object for some weird reason, otherwise it gives a null reference exception
     public void initOdometry(Sensors sensors) {
         driveKinematics = new MecanumDriveKinematics(Constants.ControlConstants.frontLeftLocation, Constants.ControlConstants.frontRightLocation, Constants.ControlConstants.backLeftLocation, Constants.ControlConstants.backLeftLocation);
         System.out.println(sensors.getGyroZ());
-        driveOdometry = new MecanumDriveOdometry(driveKinematics, Rotation2d.fromDegrees(sensors.getGyroZ() / 50), new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+        driveOdometry = new MecanumDriveOdometry(driveKinematics, Rotation2d.fromDegrees(totalMeasuredRotation), new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
         wheelSpeeds = new MecanumDriveWheelSpeeds(
             // Front left
             MiscUtils.encoderToSpeed(sensors.getEncoderResolution(Sensors._Encoder.FRONT_LEFT), sensors.getEncoderSpeed(Sensors._Encoder.FRONT_LEFT)),
@@ -85,20 +100,27 @@ public class DriveTrainMecanum extends SubsystemBase {
             // Back right
             MiscUtils.encoderToSpeed(sensors.getEncoderResolution(Sensors._Encoder.BACK_RIGHT), sensors.getEncoderSpeed(Sensors._Encoder.BACK_RIGHT)));
 
-        driveOdometry.update(Rotation2d.fromDegrees(this.container.sensors.getGyroZ() / 50), wheelSpeeds);
+        driveOdometry.update(Rotation2d.fromDegrees(totalMeasuredRotation), wheelSpeeds);
     }
 
     public Pose2d getOdometry() {
-        return driveOdometry.getPoseMeters();
+        Pose2d currentOdometry = driveOdometry.getPoseMeters();
+        return new Pose2d(new Translation2d(currentOdometry.getTranslation().getX() * Constants.UnitConversions.ODOMETRY_TO_M, currentOdometry.getTranslation().getY() * Constants.UnitConversions.ODOMETRY_TO_M), currentOdometry.getRotation());
     }
 
     // Run every time the scheduler runs (50hz)
     @Override
     public void periodic() {
+        double currentGyroInput = this.container.sensors.getGyroZ() / 50;
+
+        if (Math.abs(currentGyroInput) > 0.1) {
+            totalMeasuredRotation += currentGyroInput;
+        }
+        
         updateOdometry(Robot.Container.sensors);
 
-		joyX = Robot.Container.driverControllerAxisValue(Constants.ControllerConstants.Xbox_Right_X_Axis);
-		joyY = -Robot.Container.driverControllerAxisValue(Constants.ControllerConstants.Xbox_Right_Y_Axis);
+		joyX = Robot.Container.driverControllerAxisValue(Constants.ControllerConstants.Xbox_Left_X_Axis);
+		joyY = -Robot.Container.driverControllerAxisValue(Constants.ControllerConstants.Xbox_Left_Y_Axis);
         rotation = Robot.Container.driverControllerAxisValue(Constants.ControllerConstants.Xbox_Right_Trigger) - Robot.Container.driverControllerAxisValue(Constants.ControllerConstants.Xbox_Left_Trigger);
 
         mecanumDrive(joyX, joyY, rotation);
@@ -132,23 +154,25 @@ public class DriveTrainMecanum extends SubsystemBase {
         if (Math.abs(joystickY) < Constants.ControlConstants.JOY_DEADBAND)
             joystickY = 0;
 
-        // Gyro comp
-        if (Math.abs(rotation) >= Constants.ControlConstants.GYRO_TOGGLE) {
-            totalGyroDifference = 0;
-            gyroPID.resetTarget(0);
-        } else {
-            totalGyroDifference += this.container.sensors.getGyroZ() / 50;
-
-            if (totalGyroDifference < Constants.ControlConstants.GYRO_DEADBAND) {
-                rotation = 0;
+        if (gyroCompensate) {
+            // Gyro comp
+            if (Math.abs(rotation) >= Constants.ControlConstants.GYRO_TOGGLE) {
+                totalGyroDifference = 0;
+                gyroPID.resetTarget(0);
             } else {
-                rotation = -totalGyroDifference / 10;
+                totalGyroDifference += this.container.sensors.getGyroZ() / 50;
+
+                if (totalGyroDifference < Constants.ControlConstants.GYRO_DEADBAND) {
+                    rotation = 0;
+                } else {
+                    rotation = -totalGyroDifference / 10;
+                }
+
+                if (Math.abs(rotation) > Constants.ControlConstants.MAX_TURN_SPEED)
+                    rotation *= Constants.ControlConstants.MAX_TURN_SPEED / Math.abs(rotation);
+
+                rotation *= gyroPID.getOutput(this.container.sensors.getGyroZ());
             }
-
-            if (Math.abs(rotation) > Constants.ControlConstants.MAX_TURN_SPEED)
-                rotation *= Constants.ControlConstants.MAX_TURN_SPEED / Math.abs(rotation);
-
-            rotation *= gyroPID.getOutput(this.container.sensors.getGyroZ());
         }
 
         // Cap rotation to ControlConstants value
