@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -41,6 +42,10 @@ public class Robot extends TimedRobot {
 		Container.sensors.setLimelightPipeline(1);
 
 		Container.shooter.setStartHeight();
+
+		// Lifecam server
+		CameraServer.getInstance().startAutomaticCapture(); // Should work
+		//CameraServer.getInstance().putVideo("Lifecam", 640, 360); // Test if needed
 	}
 
 	/**
