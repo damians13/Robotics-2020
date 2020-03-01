@@ -43,9 +43,9 @@ public class Robot extends TimedRobot {
 
 		Container.shooter.setStartHeight();
 
-		// Retract all pistons
+		// Set pistons to desired state for start of match
 		Container.intake.setPistonState(Constants.SolenoidStates.DOWN);
-		Container.climb.setPistonState(Constants.SolenoidStates.DOWN);
+		Container.climb.setPistonState(Constants.SolenoidStates.UP);
 		Container.colourWheel.setPistonState(Constants.SolenoidStates.DOWN);
 
 		// Lifecam server

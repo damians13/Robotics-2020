@@ -9,14 +9,20 @@ public class TogglePneumatic extends CommandBase {
 
     private boolean finished;
 
+    private Solenoids solenoid;
+
     public static enum Solenoids {
         COLOUR_WHEEL, INTAKE, CLIMB
     }
 
     public TogglePneumatic(Solenoids solenoid) {
         this.finished = false;
+        this.solenoid = solenoid;
+    }
 
-        switch (solenoid) {
+    @Override
+    public void execute() {
+        switch (this.solenoid) {
             case COLOUR_WHEEL:
                 if (Robot.Container.colourWheel.getSolenoid() == Value.kForward) { // Forward
                     Robot.Container.colourWheel.setPistonState(Constants.SolenoidStates.DOWN);
@@ -47,5 +53,10 @@ public class TogglePneumatic extends CommandBase {
     @Override
     public boolean isFinished() {
         return this.finished;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        System.out.println(this.solenoid + " solenoid toggle finished, interrupted: " + interrupted);
     }
 }
