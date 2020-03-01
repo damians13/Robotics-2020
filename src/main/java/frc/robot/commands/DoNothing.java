@@ -16,7 +16,7 @@ public class DoNothing extends CommandBase {
         this.timesToSkip = timesToSkip;
         this.current = 0;
 
-        finished = false;
+        this.finished = false;
     }
     
     @Override

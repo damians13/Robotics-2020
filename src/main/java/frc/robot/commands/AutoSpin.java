@@ -7,13 +7,20 @@ public class AutoSpin extends CommandBase {
 
     private boolean finished;
 
+    private Spinnables spinnable;
+
     public static enum Spinnables {
         SHOOTER, INTAKE, INDEXING
     }
 
     public AutoSpin(Spinnables spinnable) {
         this.finished = false;
+        
+        this.spinnable = spinnable;
+    }
 
+    @Override
+    public void execute() {
         switch (spinnable) {
             case SHOOTER:
                 if (Robot.Container.shooter.start()) {
