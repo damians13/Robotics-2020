@@ -64,4 +64,8 @@ public class Intake extends SubsystemBase {
         }
     }
 
+    public Value getSolenoid() {
+        return this.solenoid.get();
+    }
+
 }

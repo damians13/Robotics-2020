@@ -43,6 +43,11 @@ public class Robot extends TimedRobot {
 
 		Container.shooter.setStartHeight();
 
+		// Retract all pistons
+		Container.intake.setPistonState(Constants.SolenoidStates.DOWN);
+		Container.climb.setPistonState(Constants.SolenoidStates.DOWN);
+		Container.colourWheel.setPistonState(Constants.SolenoidStates.DOWN);
+
 		// Lifecam server
 		CameraServer.getInstance().startAutomaticCapture(); // Should work
 		//CameraServer.getInstance().putVideo("Lifecam", 640, 360); // Test if needed

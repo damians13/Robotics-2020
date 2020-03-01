@@ -1,14 +1,7 @@
 TO-DO:
-- Try limelight zoom in to fix the 3-corner issue
-- Deploy to main github
-
-AUTO PLAN:
-Straight back 10 ft with intake spinning
-Forward 5 ft
-Turn off intake
-Over 24 ft
-Back 5 ft
-AutoAimLimelight
-Spin up shooter
-Run indexing
-Stop spinning shooter and indexing
+ - Tune PID's:
+    - AutoAimLimelightSimp
+    - Shooter spinning
+    - Gyro comp
+ - Test AutoPlan2
+ - Map controls (in an organized way)

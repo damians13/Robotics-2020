@@ -77,4 +77,8 @@ public class Climb extends SubsystemBase {
                 break;
         }
     }
+
+    public Value getSolenoid() {
+        return this.solenoid.get();
+    }
 }

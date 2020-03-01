@@ -32,7 +32,6 @@ public class ColourWheel extends SubsystemBase {
     private static final int[] yellowValues = {1600, 3000, 400};
     private static final int[] whiteValues = {2300, 4000, 2200};
     
-
     public ColourWheel() {
         motor = new VictorSPX(12);
         solenoid = new DoubleSolenoid(13, 3, 2);
@@ -52,6 +51,10 @@ public class ColourWheel extends SubsystemBase {
 
         SmartDashboard.putString("Detected colour", this.determineColour());
         SmartDashboard.putString("Previous detected colour", this.previousColour);
+    }
+
+    public Value getSolenoid() {
+        return this.solenoid.get();
     }
 
     public String determineColour() {

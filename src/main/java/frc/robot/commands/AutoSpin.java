@@ -21,6 +21,7 @@ public class AutoSpin extends CommandBase {
                 } else if (Robot.Container.shooter.stop()) {
                     System.out.println("Shooter stopped.");
                 }
+                this.finished = true;
                 break;
             case INTAKE:
                 if (Robot.Container.intake.start()) {
@@ -28,6 +29,7 @@ public class AutoSpin extends CommandBase {
                 } else if (Robot.Container.intake.stop()) {
                     System.out.println("Intake stopped.");
                 }
+                this.finished = true;
                 break;
             case INDEXING:
                 if (Robot.Container.indexing.start()) {
@@ -35,6 +37,7 @@ public class AutoSpin extends CommandBase {
                 } else if (Robot.Container.indexing.stop()) {
                     System.out.println("Indexing stopped.");
                 }
+                this.finished = true;
                 break;
         }
     }
