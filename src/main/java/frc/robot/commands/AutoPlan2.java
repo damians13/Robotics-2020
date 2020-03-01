@@ -1,14 +1,14 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import frc.robot.commands.AutoSpin.Spinnables;
 import frc.robot.commands.TogglePneumatic.Solenoids;
 
-public class AutoPlan2 extends SequentialCommandGroup {
+public class AutoPlan2 extends CommandGroupBase {
 
-    public AutoPlan2() {
-        addCommands(
+/**
+ * addCommands(
             new DoNothing(50),
             new ParallelCommandGroup(
                 new TogglePneumatic(Solenoids.CLIMB),
@@ -25,5 +25,27 @@ public class AutoPlan2 extends SequentialCommandGroup {
                 new AutoSpin(Spinnables.SHOOTER),
                 new AutoSpin(Spinnables.INDEXING))
         );
+ */
+
+    public AutoPlan2() {
+        sequence(new DoNothing(50));
+        parallel(new TogglePneumatic(Solenoids.CLIMB),
+                 new TogglePneumatic(Solenoids.INTAKE));
+        sequence(new SetWheelSpeed(-0.3, 0, 0));
+        sequence(new DoNothing(50));
+        sequence(new SetWheelSpeed(0, 0, 0));
+        sequence(new AutoAimLimelightSimp());
+        sequence(new AutoSpin(Spinnables.SHOOTER));
+        sequence(new DoNothing(50));
+        sequence(new AutoSpin(Spinnables.INDEXING));
+        sequence(new DoNothing(150));
+        parallel(new AutoSpin(Spinnables.SHOOTER),
+                 new AutoSpin(Spinnables.INDEXING));
     }
+
+	@Override
+	public void addCommands(Command... commands) {
+		// TODO Auto-generated method stub
+		
+	}
 }
