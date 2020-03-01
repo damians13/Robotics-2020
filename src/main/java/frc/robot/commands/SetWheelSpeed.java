@@ -9,34 +9,29 @@ public class SetWheelSpeed extends CommandBase {
     private double ySpeed;
     private double rotation;
 
-    private boolean finished;
-
     public SetWheelSpeed(double xSpeed, double ySpeed, double rotation) {
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
         this.rotation = rotation;
-
-        this.finished = false;
     }
     
     @Override
     public void execute() {
-        Robot.Container.driveTrain.mecanumDrive(xSpeed, ySpeed, rotation);
-        this.finished = true;
+        Robot.Container.driveTrain.mecanumDrive(this.xSpeed, this.ySpeed, this.rotation);
     }
     
     @Override
     public void end(boolean interrupted) {
         if (!interrupted) {
-            System.out.println("Wheels set to X: " + xSpeed + ", Y: " + ySpeed + ", ROT: " + rotation);
+            System.out.println("Wheels set to X: " + this.xSpeed + ", Y: " + this.ySpeed + ", ROT: " + this.rotation);
         } else {
-            System.out.println("Interrupted while setting wheels to X: " + xSpeed + ", Y: " + ySpeed + ", ROT: " + rotation);
+            System.out.println("Interrupted while setting wheels to X: " + this.xSpeed + ", Y: " + this.ySpeed + ", ROT: " + this.rotation);
         }
     }
 
     @Override
     public boolean isFinished() {
-        return this.finished;
+        return false;
     }
 
 }
