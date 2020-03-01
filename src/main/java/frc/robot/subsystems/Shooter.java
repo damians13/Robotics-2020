@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.utilities.PID;
 
 public class Shooter extends SubsystemBase {
@@ -109,5 +110,13 @@ public class Shooter extends SubsystemBase {
 
     public void decrease() {
         height -= 0.005;
+    }
+
+    public double tiltFormula() {
+        double dy = 229.56 * Math.pow(Robot.Container.sensors.getLimelightTY(), -0.961);
+        double dw = 788.67 * Math.pow(Robot.Container.sensors.getLimelightTHor(), -1.013);
+        double d = (dw + dy) / 2;
+        double tilt = 0.001 * Math.pow(d, 2) - 0.0372 * d + 0.8592;
+        return tilt;
     }
 }
