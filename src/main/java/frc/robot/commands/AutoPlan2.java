@@ -19,17 +19,17 @@ public class AutoPlan2 extends SequentialCommandGroup {
             new TogglePneumatic(Solenoids.INTAKE),
             new ParallelRaceGroup(
                 new DoNothing(50),
-                new SetWheelSpeed(-0.3, 0, 0)),
+                new SetWheelSpeed(0, -0.3, 0)),
             new ParallelRaceGroup(
                 new DoNothing(1),
-                new SetWheelSpeed(0, 0, 0))/*,
-            new AutoAimLimelightSimp(),
+                new SetWheelSpeed(0, 0, 0)),
+            new AutoAimLimelightSimp(true),
             new AutoSpin(Spinnables.SHOOTER),
             new DoNothing(50),
             new AutoSpin(Spinnables.INDEXING),
-            new DoNothing(150),
+            new DoNothing(400),
             new AutoSpin(Spinnables.INDEXING),
-            new AutoSpin(Spinnables.SHOOTER)*/
+            new AutoSpin(Spinnables.SHOOTER)
         );
     }
 }

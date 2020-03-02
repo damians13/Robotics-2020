@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.utilities.PID;
@@ -17,15 +18,24 @@ public class AutoAimLimelightSimp extends CommandBase {
 
     private boolean finished;
 
-    private static final double kP = 0.022;
-    private static final double kI = 0.005;
-    private static final double kD = 0;
+    private boolean autoSetHeight;
+
     private static final double target = -2.65;
+    //private static final double target = 0;
+    //private static final double kP = 0.0280012;
+    //private static final double kI = 0.0002;
+    private static final double kD = 0; 
+    private static final double kP = 0.0258;
+    private static final double kI = 0.0002;
+
+    public AutoAimLimelightSimp(boolean autoSetHeight) {
+        this.autoSetHeight = autoSetHeight;
+    }
 
     @Override
     public void initialize() {
-        goalMax = 0.5;
-        goalMin = -0.5;
+        goalMax = 0.8;
+        goalMin = -0.8;
 
         Robot.Container.driveTrain.stopGyroComp();
 
@@ -42,11 +52,16 @@ public class AutoAimLimelightSimp extends CommandBase {
             this.finished = true;
         } else {
             double tx = Robot.Container.sensors.getLimelightTX();
-            if (tx >= goalMin && tx <= goalMax) {
+            
+            if (autoSetHeight) {
+                Robot.Container.shooter.autoAdjustShooter();
+            }
+
+            if (tx >= goalMin + target && tx <= goalMax + target) {
                 this.finished = true;
             } else {
-                Robot.Container.driveTrain.cappedMecanumDrive(0, 0, -aimPID.getOutput(tx), 0.25);
-                System.out.println(-aimPID.getOutput(tx));
+                Robot.Container.driveTrain.cappedMecanumDrive(0, 0, -aimPID.getOutput(tx), 0.1);
+                SmartDashboard.putNumber("-aimPID Output", -aimPID.getOutput(tx));
             }
         }
     }

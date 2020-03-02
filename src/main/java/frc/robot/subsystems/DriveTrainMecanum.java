@@ -45,8 +45,12 @@ public class DriveTrainMecanum extends SubsystemBase {
 
     private double totalMeasuredRotation;
 
-    //                            kP     kI     kD target
-    private PID gyroPID = new PID(0.007, 0.007, 0, 0);
+    private static final double kP = 0.006;
+    private static final double kI = 0.001;
+    private static final double kD = 0;
+    private static final double target = 0;
+// 0.007 for kp and ki
+    private PID gyroPID = new PID(kP, kI, kD, target);
 
     public DriveTrainMecanum(RobotContainer container) {
         this.container = container;

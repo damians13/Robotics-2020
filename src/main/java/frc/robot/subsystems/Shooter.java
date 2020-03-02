@@ -104,6 +104,11 @@ public class Shooter extends SubsystemBase {
         rightActuator.set(this.height);
     }
 
+    public void autoAdjustShooter() {
+        leftActuator.set(tiltFormula());
+        rightActuator.set(tiltFormula());
+    }
+
     public void increase() {
         height += 0.005;
     }

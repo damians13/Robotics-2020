@@ -75,6 +75,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("LiDAR Output Value", Container.sensors.getLidarDistance());
 		SmartDashboard.putNumber("Limelight horizontal length", Container.sensors.getLimelightTHor());
 		SmartDashboard.putNumber("Limelight target y", Container.sensors.getLimelightTY());
+
+		SmartDashboard.putNumber("Suggested shooter height", Container.shooter.tiltFormula());
 	}
 
 	/**
@@ -155,7 +157,7 @@ public class Robot extends TimedRobot {
 		}
 		
 		if (Container.driverController.getYButtonPressed()) {
-			AutoAimLimelightSimp autoAim = new AutoAimLimelightSimp();
+			AutoAimLimelightSimp autoAim = new AutoAimLimelightSimp(false);
 			autoAim.schedule();
 		}
 
@@ -169,10 +171,10 @@ public class Robot extends TimedRobot {
 		Container.shooter.adjustShooter();
 
 		if (Container.secondaryController.getAButtonPressed()) {
-			Container.climb.setPistonState(Constants.SolenoidStates.UP);
+			Container.intake.setPistonState(Constants.SolenoidStates.UP);
 		}
 		if (Container.secondaryController.getBButtonPressed()) {
-			Container.climb.setPistonState(Constants.SolenoidStates.DOWN);
+			Container.intake.setPistonState(Constants.SolenoidStates.DOWN);
 		}
 
 		//Container.colourWheel.setMotorSpeed(Container.secondaryControllerAxisValue(Constants.ControllerConstants.Xbox_Right_Y_Axis));
