@@ -22,7 +22,7 @@ public class DetectButtonPress extends CommandBase {
     }
 
     /**
-     * I hate the execute method of this class
+     * I hate this file
      * There is definitely a better way to do this, but I don't have time
      */
 
