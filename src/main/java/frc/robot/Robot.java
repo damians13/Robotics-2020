@@ -14,7 +14,12 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import frc.robot.commands.AutoAimLimelightSimp;
+import frc.robot.commands.DetectButtonPress;
+import frc.robot.commands.TogglePneumatic;
+import frc.robot.commands.DetectButtonPress.Controller;
+import frc.robot.commands.TogglePneumatic.Solenoids;
 import frc.robot.utilities.MiscUtils;
 
 /**
@@ -67,16 +72,8 @@ public class Robot extends TimedRobot {
 		// and running subsystem periodic() methods.	This must be called from the robot's periodic
 		// block in order for anything in the Command-based framework to work.
 		CommandScheduler.getInstance().run();
-		
-		SmartDashboard.putNumber("Odometry X", Container.driveTrain.getOdometry().getTranslation().getX());
-		SmartDashboard.putNumber("Odometry Y", Container.driveTrain.getOdometry().getTranslation().getY());
-		SmartDashboard.putNumber("Odometry Rot", Container.driveTrain.getOdometry().getRotation().getDegrees());
 
-		SmartDashboard.putNumber("LiDAR Output Value", Container.sensors.getLidarDistance());
-		SmartDashboard.putNumber("Limelight horizontal length", Container.sensors.getLimelightTHor());
-		SmartDashboard.putNumber("Limelight target y", Container.sensors.getLimelightTY());
-
-		SmartDashboard.putNumber("Suggested shooter height", Container.shooter.tiltFormula());
+		updateSmartDashboard();
 	}
 
 	/**
@@ -119,8 +116,6 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
-
-		updateSmartDashboard();
 	}
 
 	/**
@@ -128,10 +123,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.putNumber("TX", Container.sensors.getLimelightTX());
-		SmartDashboard.putBoolean("HasTarget", Container.sensors.limelightHasTarget());
-		SmartDashboard.putString("FMS Desired Colour", getColourFromFMS());
-
+		checkButtons();
+		/*
 		if (Container.driverController.getAButtonPressed()) {
 			if (Container.shooter.start()) {
 				System.out.println("Shooter started.");
@@ -178,6 +171,77 @@ public class Robot extends TimedRobot {
 		}
 
 		//Container.colourWheel.setMotorSpeed(Container.secondaryControllerAxisValue(Constants.ControllerConstants.Xbox_Right_Y_Axis));
+		*/
+	}
+
+	private void checkButtons() {
+		/**
+		 * Driver controller buttons
+		 *
+		 * Limelight auto aim -> Y
+		 * Colour wheel piston toggle -> X
+		 * Climb arm piston toggle -> A
+		 * Intake piston toggle -> B
+		 * Back -> Manual cancel limelight auto aim
+		 */
+
+		// Limelight auto aim (Cancelled with back button)
+		if (Container.driverController.getYButtonPressed()) {
+			new ParallelRaceGroup(new AutoAimLimelightSimp(false), new DetectButtonPress(Controller.DRIVER, Constants.ControllerConstants.Xbox_Back_Button)).schedule();
+		}
+
+		// Colour wheel piston toggle
+		if (Container.driverController.getXButtonPressed()) {
+			new TogglePneumatic(Solenoids.COLOUR_WHEEL);
+		}
+
+		// Climb arm piston toggle
+		if (Container.driverController.getAButtonPressed()) {
+			new TogglePneumatic(Solenoids.CLIMB);
+		}
+
+		// Intake piston toggle
+		if (Container.driverController.getBButtonPressed()) {
+			new TogglePneumatic(Solenoids.INTAKE);
+		}
+
+		/**
+		 * Driver controller axis
+		 *
+		 * Cartesian movement -> Left joystick x & y axis
+		 * Colour wheel -> Right joystick x axis
+		 * Turn right -> Right trigger
+		 * Turn left -> Left trigger
+		 */
+
+		/**
+		 * Secondary controller buttons
+		 *
+		 * Big winch toggle -> Y
+		 * Intake toggle -> B
+		 * Indexing toggle -> X
+		 * Shooter toggle -> A
+		 * Start -> Shooter height +
+		 * Back -> Shooter height -
+		 */
+
+		// Big winch toggle
+		if (Container.secondaryController.getYButtonReleased()) {
+		}
+
+		/**
+		 * Secondary controller axis
+		 *
+		 * Elevator arm -> Left joystick y axis
+		 */
+	}
+
+	private double deadband(double input, double deadband) {
+		if (Math.abs(input) <= deadband) {
+			return 0;
+		} else {
+			return input;
+		}
 	}
 
 	@Override
@@ -202,9 +266,14 @@ public class Robot extends TimedRobot {
 		
 		SmartDashboard.putNumber("Limelight Detected Area", MiscUtils.limelightPointsToDistance(Container.sensors.getLimelightCornersX(), Container.sensors.getLimelightCornersY()));
 
-		//SmartDashboard.putNumber("RED", Container.sensors.getColourSensorRed());
-		//SmartDashboard.putNumber("GREEN", Container.sensors.getColourSensorGreen());
-		//SmartDashboard.putNumber("BLUE", Container.sensors.getColourSensorBlue());
+		SmartDashboard.putNumber("TX", Container.sensors.getLimelightTX());
+		SmartDashboard.putBoolean("HasTarget", Container.sensors.limelightHasTarget());
+		SmartDashboard.putString("FMS Desired Colour", getColourFromFMS());
+
+		SmartDashboard.putNumber("Limelight horizontal length", Container.sensors.getLimelightTHor());
+		SmartDashboard.putNumber("Limelight target y", Container.sensors.getLimelightTY());
+
+		SmartDashboard.putNumber("Suggested shooter height", Container.shooter.tiltFormula());
 	}
 
 	private String getColourFromFMS() {

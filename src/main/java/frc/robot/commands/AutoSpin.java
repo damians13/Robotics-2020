@@ -10,7 +10,7 @@ public class AutoSpin extends CommandBase {
     private Spinnables spinnable;
 
     public static enum Spinnables {
-        SHOOTER, INTAKE, INDEXING
+        SHOOTER, INTAKE, INDEXING, BIG_WINCH
     }
 
     public AutoSpin(Spinnables spinnable) {
@@ -46,6 +46,8 @@ public class AutoSpin extends CommandBase {
                 }
                 this.finished = true;
                 break;
+            case BIG_WINCH:
+                if // add this
         }
     }
 

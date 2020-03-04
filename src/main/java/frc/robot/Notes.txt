@@ -1,7 +1,4 @@
 TO-DO:
  - Tune PID's:
-    - AutoAimLimelightSimp
     - Shooter spinning
-    - Gyro comp
- - Test AutoPlan2
  - Map controls (in an organized way)
