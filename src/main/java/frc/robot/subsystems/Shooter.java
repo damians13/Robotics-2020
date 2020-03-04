@@ -74,14 +74,6 @@ public class Shooter extends SubsystemBase {
     public boolean start() {
         if (!this.spinning) {
             this.spinning = true;
-/*
-            Robot.Container.sensors.getLidarDistance();
-
-            // insert lidar distance to linear actuator input algorithm here
-
-            leftActuator.set(0.5); // 0.5 for now, eventually just put the output of the algorithm
-            rightActuator.set(0.5);
-*/
             return true;
         } else {
             return false;

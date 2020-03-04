@@ -39,7 +39,7 @@ public class Indexing extends SubsystemBase {
             //leftMotor.set(ControlMode.PercentOutput, indexingPID.getOutput(leftMotor.getSelectedSensorVelocity()));
             //rightMotor.set(ControlMode.PercentOutput, -indexingPID.getOutput(rightMotor.getSelectedSensorVelocity()));
 
-            SmartDashboard.putNumber("Indexing Encoder Output", leftMotor.getSelectedSensorVelocity());
+            SmartDashboard.putNumber("Left Indexing Encoder Output", leftMotor.getSelectedSensorVelocity());
 
             leftMotor.set(ControlMode.PercentOutput, 0.16);
             rightMotor.set(ControlMode.PercentOutput, -0.16);

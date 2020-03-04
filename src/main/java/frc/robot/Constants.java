@@ -37,6 +37,8 @@ public final class Constants {
         //public static final double MAX_LINEAR_ACTUATOR_INPUT = 0.7;
         //public static final double MIN_LINEAR_ACTUATOR_INPUT = 0.5;
 
+        public static final double BIG_WINCH_SPEED = 0.3;
+
         // Locations of mecanum wheels in relation to the center of the robot
         public static final Translation2d frontLeftLocation = new Translation2d(-0.3, 0.3);
         public static final Translation2d frontRightLocation = new Translation2d(0.3, 0.3);

@@ -22,6 +22,8 @@ public class Climb extends SubsystemBase {
 
     private PID holdExtenderArm;
 
+    private boolean bigWinchSpinning;
+
     private VictorSPX smallWinch;
     private CANSparkMax bigWinch;
     private CANEncoder bigWinchEncoder;
@@ -39,16 +41,29 @@ public class Climb extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (Math.abs(Robot.Container.secondaryControllerAxisValue(Constants.ControllerConstants.Xbox_Left_Y_Axis)) > 0.05) {
-            smallWinch.set(ControlMode.PercentOutput, Robot.Container.secondaryControllerAxisValue(Constants.ControllerConstants.Xbox_Left_Y_Axis));
-        } else {
-            smallWinch.set(ControlMode.PercentOutput, 0);
-        }
-
-        if (Math.abs(Robot.Container.secondaryControllerAxisValue(Constants.ControllerConstants.Xbox_Right_Y_Axis)) > 0.05) {
-            bigWinch.set(Robot.Container.secondaryControllerAxisValue(Constants.ControllerConstants.Xbox_Right_Y_Axis));
+        if (this.bigWinchSpinning) {
+            bigWinch.set(Constants.ControlConstants.BIG_WINCH_SPEED);
         } else {
             bigWinch.set(0);
+        }
+    }
+
+    public boolean startBigWinch() {
+        if (!this.bigWinchSpinning) {
+            this.bigWinchSpinning = true;
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public boolean stopBigWinch() {
+        if (this.bigWinchSpinning) {
+            this.bigWinchSpinning = false;
+            return true;
+        } else {
+            return false;
         }
     }
 

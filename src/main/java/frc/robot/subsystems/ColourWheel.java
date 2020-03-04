@@ -41,20 +41,21 @@ public class ColourWheel extends SubsystemBase {
 
     @Override
     public void periodic() {
-        blue = Robot.Container.sensors.getColourSensorBlue();
+        /*blue = Robot.Container.sensors.getColourSensorBlue();
         red = Robot.Container.sensors.getColourSensorRed();
         green = Robot.Container.sensors.getColourSensorGreen();
 
         SmartDashboard.putNumber("Colour sensor blue", blue);
         SmartDashboard.putNumber("Colour sensor red", red);
-        SmartDashboard.putNumber("Colour sensor green", green);
-
-        SmartDashboard.putString("Detected colour", this.determineColour());
-        SmartDashboard.putString("Previous detected colour", this.previousColour);
+        SmartDashboard.putNumber("Colour sensor green", green);*/
     }
 
     public Value getSolenoid() {
         return this.solenoid.get();
+    }
+
+    public String getPreviousColour() {
+        return this.previousColour;
     }
 
     public String determineColour() {
