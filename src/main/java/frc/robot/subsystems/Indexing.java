@@ -51,6 +51,14 @@ public class Indexing extends SubsystemBase {
         //System.out.println("irSensor: " + irSensor.getValue());
     }
 
+    public String getStatus() {
+        if (this.spinning) {
+            return "Spinning";
+        } else {
+            return "Not spinning";
+        }
+    }
+
 
     /**
      * These methods return true or false as a check to see if the shooter spins up when we don't want it to

@@ -45,6 +45,14 @@ public class Intake extends SubsystemBase {
         }
     }
 
+    public String getStatus() {
+        if (this.spinning) {
+            return "Spinning";
+        } else {
+            return "Not spinning";
+        }
+    }
+
     public boolean start() {
         if (!this.spinning) {
             this.spinning = true;

@@ -62,6 +62,14 @@ public class Shooter extends SubsystemBase {
         SmartDashboard.putNumber("Shooter PID", shooterPID.getOutput(rightEncoder.getVelocity()));
     }
 
+    public String getStatus() {
+        if (this.spinning) {
+            return "Spinning";
+        } else {
+            return "Not spinning";
+        }
+    }
+
     public void setStartHeight() {
         leftActuator.set(0.5);
         rightActuator.set(0.5);

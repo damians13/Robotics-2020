@@ -22,7 +22,6 @@ import frc.robot.commands.TogglePneumatic;
 import frc.robot.commands.AutoSpin.Spinnables;
 import frc.robot.commands.DetectButtonPress.Controller;
 import frc.robot.commands.TogglePneumatic.Solenoids;
-import frc.robot.utilities.MiscUtils;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
