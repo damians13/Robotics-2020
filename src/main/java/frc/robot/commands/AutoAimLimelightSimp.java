@@ -39,6 +39,8 @@ public class AutoAimLimelightSimp extends CommandBase {
 
         Robot.Container.driveTrain.stopGyroComp();
 
+        Robot.Container.sensors.turnOnLimelightLED();
+
         aimPID = new PID(kP, kI, kD, target);
 
         this.finished = false;
@@ -72,6 +74,7 @@ public class AutoAimLimelightSimp extends CommandBase {
             System.out.println("Limelight aimed.");
         }
         Robot.Container.driveTrain.startGyroComp();
+        Robot.Container.sensors.turnOffTheDamnLimelightLED();
     }
 
     @Override

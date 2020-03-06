@@ -26,14 +26,15 @@ public final class Constants {
 
     public static class ControlConstants {
         // Control variables
-        public static final double MAX_ROBOT_SPEED = 0.7;
-        public static final double MIN_ROBOT_SPEED = -0.7;
+        public static final double MAX_ROBOT_SPEED = 1;
+        public static final double MIN_ROBOT_SPEED = -1;
         public static final double MAX_TURN_SPEED = 0.7;
         public static final double ROTATION_DEADBAND = 0.1;
         public static final double GYRO_DEADBAND = 0.005;
-        public static final double JOY_DEADBAND = 0.1;
+        public static final double JOY_DEADBAND = 0.15;
         public static final double GYRO_TOGGLE = 0.01;
         public static final double INTAKE_SPEED = 0.75;
+        public static final double ROTATION_MULT = 0.8;
         //public static final double MAX_LINEAR_ACTUATOR_INPUT = 0.7;
         //public static final double MIN_LINEAR_ACTUATOR_INPUT = 0.5;
 

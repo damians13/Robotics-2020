@@ -54,6 +54,8 @@ public class Robot extends TimedRobot {
 		Container.climb.setPistonState(Constants.SolenoidStates.UP);
 		Container.colourWheel.setPistonState(Constants.SolenoidStates.DOWN);
 
+		Container.sensors.turnOffTheDamnLimelightLED();
+
 		// Lifecam server
 		CameraServer.getInstance().startAutomaticCapture(); // Should work
 		//CameraServer.getInstance().putVideo("Lifecam", 640, 360); // Test if needed
@@ -124,6 +126,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		Container.driveTrain.stopGyroComp();
+
 		checkButtons();
 	}
 
@@ -145,17 +149,17 @@ public class Robot extends TimedRobot {
 
 		// Colour wheel piston toggle
 		if (Container.driverController.getXButtonPressed()) {
-			new TogglePneumatic(Solenoids.COLOUR_WHEEL);
+			new TogglePneumatic(Solenoids.COLOUR_WHEEL).schedule();
 		}
 
 		// Climb arm piston toggle
 		if (Container.driverController.getAButtonPressed()) {
-			new TogglePneumatic(Solenoids.CLIMB);
+			new TogglePneumatic(Solenoids.CLIMB).schedule();
 		}
 
 		// Intake piston toggle
 		if (Container.driverController.getBButtonPressed()) {
-			new TogglePneumatic(Solenoids.INTAKE);
+			new TogglePneumatic(Solenoids.INTAKE).schedule();
 		}
 
 		/**
@@ -185,17 +189,22 @@ public class Robot extends TimedRobot {
 
 		// Big winch toggle
 		if (Container.secondaryController.getYButtonPressed()) {
-			new AutoSpin(Spinnables.BIG_WINCH);
+			new AutoSpin(Spinnables.BIG_WINCH).schedule();
 		}
 
 		// Intake toggle
 		if (Container.secondaryController.getBButtonPressed()) {
-			new AutoSpin(Spinnables.INTAKE);
+			new AutoSpin(Spinnables.INTAKE).schedule();
+		}
+
+		// Indexing toggle
+		if (Container.secondaryController.getXButtonPressed()) {
+			new AutoSpin(Spinnables.INDEXING).schedule();
 		}
 
 		// Shooter toggle
 		if (Container.secondaryController.getAButtonPressed()) {
-			new AutoSpin(Spinnables.SHOOTER);
+			new AutoSpin(Spinnables.SHOOTER).schedule();
 		}
 
 		// Lower the shooter / Increase shooter angle
@@ -254,8 +263,11 @@ public class Robot extends TimedRobot {
 
 		SmartDashboard.putNumber("Suggested shooter height", Container.shooter.tiltFormula());
 
+		SmartDashboard.putString("Shooter status", Container.shooter.getStatus());
+		SmartDashboard.putString("Indexing status", Container.indexing.getStatus());
+
         SmartDashboard.putString("Detected colour", Container.colourWheel.determineColour());
-        SmartDashboard.putString("Previous detected colour", Container.colourWheel.getPreviousColour());
+		SmartDashboard.putString("Previous detected colour", Container.colourWheel.getPreviousColour());
 	}
 
 	private String getColourFromFMS() {

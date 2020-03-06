@@ -49,7 +49,7 @@ public class AutoSpin extends CommandBase {
             case BIG_WINCH:
                 if (Robot.Container.climb.startBigWinch()) {
                     System.out.println("Climb winch started.");
-                } else if (Robot.Container.climb.startBigWinch()) {
+                } else if (Robot.Container.climb.stopBigWinch()) {
                     System.out.println("Climb winch stopped.");
                 }
                 this.finished = true;

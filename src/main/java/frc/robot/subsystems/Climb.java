@@ -72,7 +72,7 @@ public class Climb extends SubsystemBase {
     }
 
     public void setSmallWinchSpeed(double speed) {
-        smallWinch.set(ControlMode.PercentOutput, speed);
+        smallWinch.set(ControlMode.PercentOutput, speed * 0.5);
     }
 
     public void setSmallWinchHold() {

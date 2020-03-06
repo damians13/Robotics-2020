@@ -125,7 +125,7 @@ public class DriveTrainMecanum extends SubsystemBase {
 
 		joyX = Robot.Container.driverControllerAxisValue(Constants.ControllerConstants.Xbox_Left_X_Axis);
 		joyY = -Robot.Container.driverControllerAxisValue(Constants.ControllerConstants.Xbox_Left_Y_Axis);
-        rotation = Robot.Container.driverControllerAxisValue(Constants.ControllerConstants.Xbox_Right_Trigger) - Robot.Container.driverControllerAxisValue(Constants.ControllerConstants.Xbox_Left_Trigger);
+        rotation = Constants.ControlConstants.ROTATION_MULT * (Robot.Container.driverControllerAxisValue(Constants.ControllerConstants.Xbox_Right_Trigger) - Robot.Container.driverControllerAxisValue(Constants.ControllerConstants.Xbox_Left_Trigger));
 
         mecanumDrive(joyX, joyY, rotation);
     }
