@@ -191,6 +191,9 @@ public class Robot extends TimedRobot {
 		if (Container.secondaryController.getYButtonPressed()) {
 			new AutoSpin(Spinnables.BIG_WINCH).schedule();
 		}
+		if (Container.secondaryController.getYButtonReleased()) {
+			new AutoSpin(Spinnables.BIG_WINCH).schedule();
+		}
 
 		// Intake toggle
 		if (Container.secondaryController.getBButtonPressed()) {

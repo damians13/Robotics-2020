@@ -34,11 +34,11 @@ public final class Constants {
         public static final double JOY_DEADBAND = 0.15;
         public static final double GYRO_TOGGLE = 0.01;
         public static final double INTAKE_SPEED = 0.75;
-        public static final double ROTATION_MULT = 0.8;
+        public static final double ROTATION_MULT = 0.65;
         //public static final double MAX_LINEAR_ACTUATOR_INPUT = 0.7;
         //public static final double MIN_LINEAR_ACTUATOR_INPUT = 0.5;
 
-        public static final double BIG_WINCH_SPEED = 0.3;
+        public static final double BIG_WINCH_SPEED = 0.45;
 
         // Locations of mecanum wheels in relation to the center of the robot
         public static final Translation2d frontLeftLocation = new Translation2d(-0.3, 0.3);
