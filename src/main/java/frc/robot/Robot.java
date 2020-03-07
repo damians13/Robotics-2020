@@ -279,6 +279,7 @@ public class Robot extends TimedRobot {
 
 		SmartDashboard.putString("Shooter status", Container.shooter.getStatus());
 		SmartDashboard.putString("Indexing status", Container.indexing.getStatus());
+		SmartDashboard.putString("Winch status", Container.climb.getStatus());
 
         SmartDashboard.putString("Detected colour", Container.colourWheel.determineColour());
 		SmartDashboard.putString("Previous detected colour", Container.colourWheel.getPreviousColour());

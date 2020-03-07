@@ -48,6 +48,14 @@ public class Climb extends SubsystemBase {
         }
     }
 
+    public String getStatus() {
+        if (this.bigWinchSpinning) {
+            return "Spinning";
+        } else {
+            return "Not spinning";
+        }
+    }
+
     public boolean startBigWinch() {
         if (!this.bigWinchSpinning) {
             this.bigWinchSpinning = true;
