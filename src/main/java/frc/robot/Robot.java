@@ -77,6 +77,8 @@ public class Robot extends TimedRobot {
 		CommandScheduler.getInstance().run();
 
 		updateSmartDashboard();
+
+		Container.shooter.adjustShooter();
 	}
 
 	/**
@@ -140,6 +142,7 @@ public class Robot extends TimedRobot {
 		 * Climb arm piston toggle -> A
 		 * Intake piston toggle -> B
 		 * Back -> Manual cancel limelight auto aim
+		 * Start -> Toggle limelight LED
 		 */
 
 		// Limelight auto aim (Cancelled with back button)
@@ -160,6 +163,14 @@ public class Robot extends TimedRobot {
 		// Intake piston toggle
 		if (Container.driverController.getBButtonPressed()) {
 			new TogglePneumatic(Solenoids.INTAKE).schedule();
+		}
+
+		if (Container.driverController.getStartButtonPressed()) {
+			if (Container.sensors.getLimelightLED() == 0.0) { // On
+				Container.sensors.turnOffTheDamnLimelightLED();
+			} else { // Off
+				Container.sensors.turnOnLimelightLED();
+			}
 		}
 
 		/**

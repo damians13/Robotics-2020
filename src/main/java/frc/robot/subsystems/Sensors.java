@@ -164,8 +164,8 @@ public class Sensors extends SubsystemBase {
         limelight.getEntry("pipeline").setNumber(value);
     }
 
-    public int getLimelightLED() {
-        return (int) limelight.getEntry("ledMode").getNumber(0);
+    public double getLimelightLED() {
+        return (double) limelight.getEntry("ledMode").getNumber(0);
     }
     
     public double[] getLimelight3dPosition() { // Results of a 3D position solution, 6 numbers: Translation (x,y,y) Rotation(pitch,yaw,roll)

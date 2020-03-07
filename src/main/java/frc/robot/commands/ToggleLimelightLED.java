@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
 public class ToggleLimelightLED extends CommandBase {
-	private int currentLimelightState;
+	private double currentLimelightState;
 	private boolean ran;
 
     public ToggleLimelightLED() {

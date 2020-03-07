@@ -118,10 +118,11 @@ public class Shooter extends SubsystemBase {
     }
 
     public double tiltFormula() {
+        double bias = 1.06;
         double dy = 229.56 * Math.pow(Robot.Container.sensors.getLimelightTY(), -0.961);
         double dw = 788.67 * Math.pow(Robot.Container.sensors.getLimelightTHor(), -1.013);
         double d = (dw + dy) / 2;
-        double tilt = 0.001 * Math.pow(d, 2) - 0.0372 * d + 0.8592;
+        double tilt = bias * (0.001 * Math.pow(d, 2) - 0.0372 * d + 0.8592);
         return tilt;
     }
 }
